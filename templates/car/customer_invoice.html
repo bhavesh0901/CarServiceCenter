@@ -6,13 +6,102 @@
     <head>
 		<script>window.document.title="Car Care Center-Payment";</script>
         <title></title>
-
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		<title>Car Care Center-Profile</title>
+		<link rel="icon" type="image/png" href="{% static " images/favicon.png " %}">
+		<!-- fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+		<!-- css -->
+		<link rel="stylesheet" href="{% static  "vendor/bootstrap/css/bootstrap.css " %}">
+		<link rel="stylesheet" href="{% static "vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+		<link rel="stylesheet" href="{% static "vendor/photoswipe/photoswipe.css " %}">
+		<link rel="stylesheet" href="{% static "vendor/photoswipe/default-skin/default-skin.css " %}">
+		<link rel="stylesheet" href="{% static "vendor/select2/css/select2.min.css " %}">
+		<link rel="stylesheet" href="{% static "css/style.css " %}">
+		<link rel="stylesheet" href="{% static "css/style.header-spaceship-variant-one.css " %}" media="(min-width: 1200px)">
+		<link rel="stylesheet" href="{% static "css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+		<!-- font - fontawesome -->
+		<link rel="stylesheet" href="{% static "vendor/fontawesome/css/all.min.css " %}">
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+	
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "UA-97489509-8");
+	
+		</script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static  "style.css" %}">
     </head>
-    <body>
-        <div class="row">
+    <body><div class="site__body">
+		<div class="block-space block-space--layout--after-header"></div>
+		<div class="block">
+			<div class="container container--max--xl">
+				<div class="row">
+					<div class="col-12 col-lg-12 mt-12 mt-lg-0">
+						<div class="dashboard">
+
+							<div class="dashboard__orders card">
+								<div class="card-header">
+									<center> <h5>Approved Request With Cost</h5></center>
+								</div>
+								<div class="card-divider"></div>
+								<div class="card-table">
+									<div class="table-responsive-sm">
+										<table>
+											<thead>
+												<tr>
+													<th>Vehicle Name</th>
+													<th>Vehicle Number</th>
+													<th>Problem Description</th>
+                  									<th>Enquiry Date</th>
+													<th>Total Cost</th>
+													<th>Payment</th>
+												</tr>
+											</thead>
+											<tbody>
+												 {% for enq in enquiry %}
+                <tr>
+                  <td>{{enq.name}}</td>
+                  <td>{{enq.number}}</td>
+                  <td>{{enq.problem}}</td>
+                  <td>{{enq.date}}</td>
+                  <td>{{enq.cost}}</td>
+				  {% if enq.payment_status %}
+					<td>Success</td>
+					{% else %}
+				 	<td><a href="/payment/{{enq.id}}"> <button type="submit" style="width:80px;height:30px;background-color:#e52727;border-color:#e52727;color:#fff;border-radius:3px;" class = "btn btn-danger">Pay</button></a></td>	
+					{% endif %}
+				</tr>
+
+				
+
+                {% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="block-space block-space--layout--before-footer"></div>
+	</div>
+
+
+
+
+
+
+        <!-- <div class="row">
 			<div class="col-12 col-m-12 col-sm-12">
 				<div class="card">
 					<div class="card-header">
@@ -58,7 +147,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 <!-- ****** table start ********** -->
 	</div>
 	<!-- end main content -->

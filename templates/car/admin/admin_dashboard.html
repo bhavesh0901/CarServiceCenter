@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+
+<head>
+	<script>window.document.title="Car Care Center-Dashboard";</script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<title>Customet Dashboard — Car Service Center</title>
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<!-- JavaScript Bundle with Popper -->
+	<link rel="stylesheet" href="{% static  "style.css" %}">
+	<style>
+		.hovernow {
+
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+			transition: box-shadow 0.3s ease-in-out;
+		}
+
+		.hovernow:hover {
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+		}
+	</style>
+
+
+</head>
+
+<body>
+	{% include 'car/admin/adminbase.html' %}
+
+	<div style="padding: 10px;
+    margin-left: 10px;
+    background: var(--second-bg-color);
+    transition: margin-left .5s;">
+
+		<!-- ****** cards start ********** -->
+		<div class="row">
+			<div class="col-3">
+				<div class="counter bg-primary hovernow ">
+					<p>
+						<i class="fas fa-tasks"></i>
+					</p>
+					<h3>{{count_req}}</h3>
+					<p><a href = "/show_mechanic" style="text-decoration: none;color: white;">Mechanic</a></p>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="counter bg-warning hovernow ">
+					<p>
+						<i class="fas fa-spinner"></i>
+					</p>
+					<h3>{{work_in_progress}}</h3>
+					<p><a href = "#" style="text-decoration: none;color: white;">Customer</a></p>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="counter bg-success hovernow ">
+					<p>
+						<i class="fas fa-check-circle"></i>
+					</p>
+					<h3>{{work_in_completed}}</h3>
+					<p><a href = "#" style="text-decoration: none;color: white;">Add Job</a></p>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="counter bg-danger hovernow">
+					<p>
+						<i class="fas fa-rupee-sign"></i>
+					</p>
+					<h3></h3>
+					<p><a href = "#" style="text-decoration: none;color: white;">Mechanic Leave</a></p>
+				</div>
+			</div>
+		</div><br><br><br><br>
+
+		<!-- ****** cards end ********** -->
+
+	</div>
+
+	<!-- end main content -->
+
+{% include 'car/admin/footer.html' %}
+</body>
+
+</html>

@@ -113,3 +113,14 @@ class job_apply(models.Model):
     skills = models.CharField(max_length=50)
     experience = models.CharField(max_length=50,null=True)
     resume = models.FileField()
+
+
+class superuser(models.Model):
+    fname = models.CharField(max_length=30)
+    lname = models.CharField(max_length=30)
+    email = models.EmailField()
+    mobile = models.CharField(max_length=20)
+    gender = models.CharField(max_length=7)
+    address = models.CharField(max_length=100)
+    password = models.CharField(max_length=20)
+    image = models.ImageField(upload_to='images/')

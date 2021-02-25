@@ -772,3 +772,49 @@ def paytm_csv(modeladmin, request, queryset):
         ])
     return response
 export_csv.short_description = u"Export CSV"
+
+
+
+#==================================================#
+#              Admin Related View                  #
+#==================================================#
+
+
+def adminlogin(request):
+    if request.method == 'POST':
+        try:
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            admin =  superuser.objects.get(email=email,password=password)
+            if admin:   
+                request.session['admin'] = admin.fname
+                return redirect('admin_dashboard')
+        except:
+            email = "Invalid login credintials"
+            return render(request,"car/admin/adminlogin.html",{"text":email})           
+    else:   
+        return render(request,"car/admin/adminlogin.html")
+
+def admin_dashboard(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        return render(request,'car/admin/admin_dashboard.html',{'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def show_mechanic(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        return render(request,'car/admin/show_mechanic.html',{'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def add_mechanic(request):
+    if request.method == 'POST':
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            return redirect('show_mechanic')
+        else:
+            return render(request,'car/admin/add_mechanic.html')
+    else:
+        return render(request,'car/admin/add_mechanic.html')

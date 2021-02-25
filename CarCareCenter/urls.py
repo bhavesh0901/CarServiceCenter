@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('user/', admin.site.urls),
     path('', views.index),
     path('home/', views.home),
 
@@ -81,10 +81,18 @@ urlpatterns = [
     path('Payment_invoice/<str:order_id>',views.GeneratePDF.as_view(),name='Payment_invoice'),
     # path('cust_invoice',views.cust_invoice,name='cust_invoice'),
     
-   
+
+     #Admin Url
+
+    path('admin/',views.adminlogin,name='admin'),
+    path('admin_dashboard',views.admin_dashboard,name='admin_dashboard'),
+    path('show_mechanic',views.show_mechanic,name='show_mechanic'),
+    path('add_mechanic',views.add_mechanic,name='add_mechanic'),
+
 ]
 
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ######Paytm Payment#########
 
+   

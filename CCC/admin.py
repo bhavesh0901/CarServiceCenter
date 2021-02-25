@@ -60,3 +60,7 @@ admin.site.register(job_apply, jobadmin)
 admin.site.register(paytm,paytmadmin)
 
 admin.site.site_header = "Car Care Center"
+
+class superuseradmin(admin.ModelAdmin):
+    list_display = ['fname','lname','email','mobile','gender','address','image']
+admin.site.register(superuser,superuseradmin)
