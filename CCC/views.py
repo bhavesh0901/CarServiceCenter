@@ -562,13 +562,13 @@ def mechanicindex(request):
         count_req = cus_request.objects.all().filter(Mechanic_id = user.id, status = 'Approved').count()
         work_progress =  cus_request.objects.all().filter(Mechanic_id = user.id, status = 'Repairing').count()
         work_complete = cus_request.objects.all().filter(Mechanic_id = user.id, status = 'Repairing Done').count()
-        Salary  = mechanic.objects.get(salary=user.salary)
         dict = {
             'mech':user,
             'count_req':count_req,
             'work_progress':work_progress,
             'work_complete':work_complete,
-            'Salary':Salary
+            'salary':user.salary,
+            'user':user,
         }
         return render(request,"car/mechanicindex.html",context=dict)
     else:
@@ -805,16 +805,39 @@ def admin_dashboard(request):
 def show_mechanic(request):
     if 'admin' in request.session:
         admin = superuser.objects.get(fname = request.session['admin'])
-        return render(request,'car/admin/show_mechanic.html',{'admin':admin})
+        mechanics  = mechanic.objects.all()
+        return render(request,'car/admin/show_mechanic.html',{'admin':admin,'mech':mechanics})
     else:
         return redirect('adminlogin')
 
 def add_mechanic(request):
-    if request.method == 'POST':
-        if 'admin' in request.session:
+    if request.method == 'POST' and request.FILES['image']:
+        try:
             admin = superuser.objects.get(fname = request.session['admin'])
+            if mechanic.objects.get(email = request.POST['email']):
+                mail = "Already Registered with this email!"
+                return render(request,"car/admin/add_mechanic.html",{"mail":mail})
+        except:
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            email = request.POST.get('email')
+            mobile = request.POST.get('mobile_no')
+            gender = request.POST.get('gender')
+            designation = request.POST.get('designation')
+            salary = request.POST.get('salary')
+            address = request.POST.get('address')
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            char = string.ascii_letters + string.digits
+            password ="".join(choice(char)
+            for x in range(randint(6,10)))
+            mecha = mechanic(fname = fname,lname=lname,email=email,mobile=mobile,gender=gender,designation=designation,salary=salary,address=address,password=password,image=myfile)
+            mecha.save()
+            stu = mechanic.objects.all()
+            text = "Your Password Will Be Sent Your Registered Mail id..!"
+            send_mail('Registered Successfully car care Center', f'You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
             return redirect('show_mechanic')
-        else:
-            return render(request,'car/admin/add_mechanic.html')
     else:
         return render(request,'car/admin/add_mechanic.html')
