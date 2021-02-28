@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Car Care Center-Profile</title>
+    <link rel="icon" type="image/png" href="{% static " images/favicon.png " %}">
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css " %}" media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+
+    <!-- font - fontawesome -->
+    <link rel="stylesheet" href="{% static "vendor/fontawesome/css/all.min.css " %}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "UA-97489509-8");
+    </script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+
+<body>
+    {% include "car/admin/adminbase.html" %}
+
+    <!-- site__body -->
+    <div class="site__body">
+        <div class="block-space block-space--layout--after-header"></div>
+        <div class="block">
+            <div class="container container--max--lg">
+                <div class="row">
+                    <div class="col-md-8 d-flex mt-4 mt-md-0" style="margin: auto;">
+                        <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
+                            <div class="card-body card-body--padding--2">
+                                <h3 class="card-title">Update Profile</h3>
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group input-group col-md-6">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                            </div>
+                                            <input name="fname" id="fname" value="{{admin.fname}}" class="form-control" placeholder="First name" type="text">
+                                        </div>
+                                        <!-- form-group// -->
+                                        <div class="form-group input-group col-md-6">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                            </div>
+                                            <input name="lname" id="lname" value="{{admin.lname}}" class="form-control" placeholder="Last name" type="text">
+                                        </div>
+                                        <!-- form-group// -->
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                        </div>
+                                        <input name="email" id="email" value="{{admin.email}}" class="form-control" placeholder="Email address" type="email">
+                                    </div>
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                                        </div>
+                                        <select class="custom-select" style="max-width: 70px;">
+											<option selected="">+91</option>
+										</select>
+                                        <input name="mobile" id="mobile" value="{{admin.mobile}}" class="form-control" placeholder="Phone number">
+                                    </div>
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-venus-double"></i> </span>
+                                        </div>
+                                        <select name="gender" class="form-control">
+											<option value={{admin.gender}}>{{admin.gender}}</option>
+											<option>Female</option>
+											<option>Male</option>
+                                            <option>Other</option>
+										</select>
+                                    </div>
+                                    <!-- form-group end.// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                                        </div>
+                                        
+                                        <input name="address" id="address" value="{{admin.address}}" class="form-control" placeholder="Address" type="address">
+                                    </div>
+                                    <!-- form-group// -->
+                                     <!-- <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                        </div>
+                                        <input name="image" id="image" class="form-control" type="file">
+                                    </div> -->
+                                    <!-- form-group
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                        </div>
+                                        <input class="form-control" name="cpassword" id="cpassword" placeholder="Repeat password" type="password">
+                                    </div> -->
+                                    <div class="form-group input-group">
+                                        
+                                        <input name="image" src = "{{admin.image.url}}" value="{{admin.image}}"  id="image" class="form-control" type="file">
+                                        
+                                    </div>
+                                    <!-- form-group// -->
+                                        <div class="form-group">
+                                        <button type="submit" id="btnSubmit" class="btn btn-primary btn-block"> Submit
+										</button>
+                                    </div>
+                                    <!-- form-group// -->
+                                   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-space block-space--layout--before-footer"></div>
+    </div>
+    <!-- site__body / end -->
+
+    <!-- scripts -->
+    <script src="{% static "v0endor/jquery/jquery.min.js " %}"></script>
+    <script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js " %}"></script>
+    <script src="{% static "vendor/owl-carousel/owl.carousel.min.js " %}"></script>
+    <script src="{% static "vendor/nouislider/nouislider.min.js " %}"></script>
+    <script src="{% static "vendor/photoswipe/photoswipe.min.js " %}"></script>
+    <script src="{% static "vendor/photoswipe/photoswipe-ui-default.min.js " %}"></script>
+    <script src="{% static "vendor/select2/js/select2.min.js " %}"></script>
+    <script src="{% static "js/number.js " %}"></script>
+    <script src="{% static "js/main.js " %}"></script>
+    {% include "car/admin/footer.html" %}
+</body>
+
+</html>

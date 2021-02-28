@@ -123,4 +123,4 @@ class superuser(models.Model):
     gender = models.CharField(max_length=7)
     address = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/',null=True,blank=True)

@@ -32,7 +32,10 @@ urlpatterns = [
     path('changepassword',views.changepassword,name="changepassword"),
     path('forgotpassword',views.forgotpassword),
 
-    # Customer Url
+
+    #==================================================#
+    #              Customer Related URL                #
+    #==================================================#
     path('customerbase',views.customerbase,name ='customerbase'),
     path('login',views.customerlogin,name='customerlogin'),
     path("customer_dashboard",views.customer_dashboard , name='customer_dashboard'),
@@ -52,8 +55,10 @@ urlpatterns = [
     path('forgotpasschange',views.forgotpasschange,name="forgotpasschange"),
     path('cust_change_pass',views.cust_change_pass,name="cust_change_pass"),
 
-    #Mechanic URL
 
+    #==================================================#
+    #              Mechanic Related URL                #
+    #==================================================#
     path('mechaniclogin',views.mechaniclogin,name='mechaniclogin'),
     path('mechanic_base',views.mechanic_base,name='mechanic_base'),
     path('mechanicindex',views.mechanicindex,name = 'mechanicindex'),
@@ -73,26 +78,49 @@ urlpatterns = [
     path('career',views.career,name='career'),
     path('applyjob',views.applyjob,name='applyjob'),
 
-    ####paytm###
 
+    #==================================================#
+    #              Paytm Related URL                   #
+    #==================================================#
     path('payment/<int:id>',views.payment,name='payment'),
     path('response',views.response, name='response'),
     path('pay_success',views.pay_success,name='pay_success'),
     path('Payment_invoice/<str:order_id>',views.GeneratePDF.as_view(),name='Payment_invoice'),
-    # path('cust_invoice',views.cust_invoice,name='cust_invoice'),
     
 
-     #Admin Url
 
+    #==================================================#
+    #              Admin Related URL                   #
+    #==================================================#
     path('admin/',views.adminlogin,name='admin'),
     path('admin_dashboard',views.admin_dashboard,name='admin_dashboard'),
+    path('adminlogin',views.adminlogin,name='adminlogin'),
     path('show_mechanic',views.show_mechanic,name='show_mechanic'),
     path('add_mechanic',views.add_mechanic,name='add_mechanic'),
-
+    path('delete_mechanic/<int:id>',views.delete_mechanic,name='delete_mechanic'),
+    path('admin_change_pass',views.admin_change_pass,name='admin_change_pass'),
+    path('customer_view',views.customer_view,name='customer_view'),
+    path('delete_customer/<int:id>',views.delete_customer,name='delete_customer'),
+    path('customer_request',views.customer_request,name='customer_request'),
+    path('admin_view_all_cusrequest',views.admin_view_all_cusrequest,name='admin_view_all_cusrequest'),
+    path('admin_view_released_request',views.admin_view_released_request,name='admin_view_released_request'),
+    path('admin_service',views.admin_service,name='admin_service'),
+    path('admin_delete_request/<int:id>',views.admin_delete_request,name='admin_delete_request'),
+    path('update_request/<int:id>',views.admin_update_cus_request,name='update_request'),
+    path('admin_repair_done',views.admin_repair_done,name='admin_repair_done'),
+    path('admin_release_req/<int:id>',views.admin_release_req,name='admin_release_req'),
+    path('download_csv',views.download_csv,name='download_csv'),
+    path('customer_payment',views.admin_view_payment,name='customer_payment'),
+    path('export',views.paytm_csv,name='export'),
+    path ('admin_profile',views.admin_profile,name='admin_profile'),
+    path('admin_edit_profile',views.admin_edit_profile,name='admin_edit_profile'),
+    path('add_admin',views.add_admin,name='add_admin'),
+    path('show_admin',views.show_admin,name='show_admin'),
+    path('adminforgotpass',views.adminforgotpass,name='adminforgotpass'),
+    path('admin_check_otp',views.admin_check_otp,name='admin_check_otp'),
+    path('adminforgotpasschange',views.adminforgotpasschange,name='adminforgotpasschange'),
+    path('admin_logout',views.admin_logout,name='admin_logout'),
 ]
-
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-######Paytm Payment#########
-
    

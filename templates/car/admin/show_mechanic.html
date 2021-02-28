@@ -38,7 +38,7 @@
 </head>
 
 <body>
-    {% include "car/mechanicbase.html" %}
+    {% include "car/admin/adminbase.html" %}
     <div class="wrapper">
 
         <!-- ****** table  start ********** -->
@@ -46,7 +46,7 @@
             <div class="col-12 col-m-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 style="color:red; text-align:center">Vehicles To Repair & Update Status
+                        <h3 style="color:red; text-align:center">Mechanic List
                         </h3>
 
                     </div>
@@ -54,33 +54,28 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>FName</th>
-                                    <th>Lname</th>
+                                    <th>Mechanic Name</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Gender</th>
                                     <th>Designation</th>
                                     <th>Salary</th>
                                     <th>Address</th>
-                                    <th>Update</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for w in mech %}
                                 <tr>
-                                    <td> {{w.fname}}</td>
-                                    <td> {{w.lname}}</td>
+                                    <td> {{w.fname}} {{w.lname}}</td>
                                     <td> {{w.email}}</td>
                                     <td> {{w.mobile}}</td>
                                     <td> {{w.gender}}</td>
                                     <td> {{w.designation}}</td>
                                     <td>{{w.salary}}</td>
                                     <td>{{w.address}}</td>
-                                    <td><a style="color:blue; text-decoration:none;font-size:25px;"
-                                            href="{% url 'mechanic_update_status' w.id %}">&#9998;</a></td>
                                             <td><a style="color:red; text-decoration:none;font-size:25px;" 
-                                                href="">&#10008;</a></td>
+                                                href="{% url 'delete_mechanic' w.id %}">&#10008;</a></td>
                                 </tr>
                                 {% endfor %}
 

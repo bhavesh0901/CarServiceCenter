@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 # import csv, datetime
 from django.http import HttpResponse
-from .views import export_csv,paytm_csv
+# from .views import export_csv,paytm_csv
 
 
 
@@ -22,7 +22,7 @@ admin.site.register(feedback, feedbackadmin)
 
 class cust_reqadmin(admin.ModelAdmin):
     list_display = ('category','number','name','brand','model','problem','date','cost','status')
-    actions = [export_csv]
+    # actions = [export_csv]
 
 
 admin.site.register(cus_request, cust_reqadmin)
@@ -41,7 +41,7 @@ admin.site.register(apply_leave,leaveadmin)
 
 class paytmadmin(admin.ModelAdmin):
     list_display = ('ORDER_ID','TXN_AMOUNT','BANKTXNID','BANKNAME','TXNDATE','STATUS')
-    actions = [paytm_csv]
+    # actions = [paytm_csv]
 
 class postadmin(admin.ModelAdmin):
     list_display =['post']

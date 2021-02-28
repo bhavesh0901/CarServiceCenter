@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import csv
+from django.http import HttpResponse
 from random import *
 import string
 from CCC import Checksum
@@ -22,6 +23,7 @@ from django.template.loader import get_template
 from django.views.generic import View
 
 from xhtml2pdf import pisa
+
 
 ###################Paytm#############
 
@@ -405,7 +407,8 @@ def customer_add_request(request):
             cust = customer.objects.get(fname=request.session['user'])
             req = cus_request(category=category,number=number,name=name,brand=brand,model=model,problem=problem,Customer_id=cust.id)
             req.save()
-            return render(request,"car/customer_add_request.html",{"user":cust})
+            text = 'Your Request Successfully Submitted...'
+            return render(request,"car/customer_add_request.html",{"user":cust,'text':text})
         else:
             return redirect("customerlogin")
     else:
@@ -611,7 +614,7 @@ def mechanic_update_status(request,id):
         if 'mec' in request.session:
             user = mechanic.objects.get(fname = request.session['mec'])
             status = request.POST.get('status')
-            cus_request.objects.filter(Mechanic_id=user.id).update(status=status)
+            cus_request.objects.filter(id=id).update(status=status)
             return redirect('mechanic_service')
         else:
             return redirect('mechaniclogin')
@@ -707,71 +710,9 @@ def mechanic_logout(request):
 
 #Export csv file
 
-def export_csv(modeladmin, request, queryset):
-    import csv
-    from django.utils.encoding import smart_str
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=cus_request.csv'
-    writer = csv.writer(response, csv.excel)
-    response.write(u'\ufeff'.encode('utf8')) # BOM (optional...Excel needs it to open UTF-8 file properly)
-    writer.writerow([
-        smart_str(u"ID"),
-        smart_str(u"category"),
-        smart_str(u"number"),
-        smart_str(u"name"),
-        smart_str(u"model"),
-        smart_str(u"brand"),
-        smart_str(u"problem"),
-        smart_str(u"date"),
-        smart_str(u"status"),
-        smart_str(u"cost"),
-    ])
-    for obj in queryset:
-        writer.writerow([
-            smart_str(obj.pk),
-            smart_str(obj.category),
-            smart_str(obj.number),
-            smart_str(obj.name),
-            smart_str(obj.model),
-            smart_str(obj.brand),
-            smart_str(obj.problem),
-            smart_str(obj.date),
-            smart_str(obj.status),
-            smart_str(obj.cost),
-            
-        ])
-    return response
-export_csv.short_description = u"Export CSV"
 
-def paytm_csv(modeladmin, request, queryset):
-    import csv
-    from django.utils.encoding import smart_str
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=Payment.csv'
-    writer = csv.writer(response, csv.excel)
-    response.write(u'\ufeff'.encode('utf8')) # BOM (optional...Excel needs it to open UTF-8 file properly)
-    writer.writerow([
-        smart_str(u"ID"),
-        smart_str(u"ORDER_ID"),
-        smart_str(u"TXN AMOUNT"),
-        smart_str(u"BANKTXNID"),
-        smart_str(u"BANKNAME"),
-        smart_str(u"TXNDATE"),
-        smart_str(u"STATUS"),
-    ])
-    for obj in queryset:
-        writer.writerow([
-            smart_str(obj.pk),
-            smart_str(obj.ORDER_ID),
-            smart_str(obj.TXN_AMOUNT),
-            smart_str(obj.BANKTXNID),
-            smart_str(obj.BANKNAME),
-            smart_str(obj.TXNDATE),
-            smart_str(obj.STATUS),
-            
-        ])
-    return response
-export_csv.short_description = u"Export CSV"
+ 
+ 
 
 
 
@@ -795,10 +736,48 @@ def adminlogin(request):
     else:   
         return render(request,"car/admin/adminlogin.html")
 
+def admin_profile(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        cus= superuser.objects.get(id=admin.id)
+        return render(request,"car/admin/admin_profile.html",{"admin":admin,"stu":cus})
+    else:
+        return redirect('adminlogin')
+
+def admin_edit_profile(request):
+    if request.method == 'POST':
+        if 'admin' in request.session and request.FILES['image']:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            email = request.POST.get('email')
+            gender = request.POST.get('gender')
+            address = request.POST.get('address')
+            mobile = request.POST.get('mobile')
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            enquiry = superuser.objects.all().filter(id=admin.id).update(fname=fname,lname=lname,email=email,gender=gender,address=address,mobile=mobile,image=myfile)
+            request.session['admin']=fname
+            return redirect('admin_profile')
+        else:
+            return redirect('adminlogin')
+        
+    else:
+        if 'admin' in request.session:
+            admin = customer.objects.get(fname = request.session['admin'])
+            return render(request,'car/admin/admin_edit_profile.html',{'admin':admin})
+        else:
+            return redirect('adminlogin')
+
+
 def admin_dashboard(request):
     if 'admin' in request.session:
         admin = superuser.objects.get(fname = request.session['admin'])
-        return render(request,'car/admin/admin_dashboard.html',{'admin':admin})
+        mechanics = mechanic.objects.all().count()
+        customers = customer.objects.all().count()
+        return render(request,'car/admin/admin_dashboard.html',{'admin':admin,'mech':mechanics,'cust':customers})
     else:
         return redirect('adminlogin')
 
@@ -816,7 +795,7 @@ def add_mechanic(request):
             admin = superuser.objects.get(fname = request.session['admin'])
             if mechanic.objects.get(email = request.POST['email']):
                 mail = "Already Registered with this email!"
-                return render(request,"car/admin/add_mechanic.html",{"mail":mail})
+                return render(request,"car/admin/add_mechanic.html",{"mail":mail,'admin':admin})
         except:
             fname = request.POST.get('fname')
             lname = request.POST.get('lname')
@@ -840,4 +819,252 @@ def add_mechanic(request):
             send_mail('Registered Successfully car care Center', f'You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
             return redirect('show_mechanic')
     else:
-        return render(request,'car/admin/add_mechanic.html')
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            return render(request,'car/admin/add_mechanic.html',{'admin':admin})
+    
+def admin_change_pass(request):
+    if request.method == 'POST':
+        admin = superuser.objects.get(fname = request.session['admin'])
+        current = request.POST.get('current')
+        newpass = request.POST.get('newpass')
+        print(current)
+        print(newpass)
+        try:
+            superuser.objects.get(password=current)
+            superuser.objects.all().filter(id=admin.id).update(password=newpass)
+            text = "Your Password Successfully Change..."
+            return render(request,'car/admin/admin_change_password.html',{'text':text,'admin':admin})
+        except:
+            change = "Current Password is not Match"
+            return render(request,'car/admin/admin_change_password.html',{'change':change,'admin':admin})
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            return render(request,'car/admin/admin_change_password.html',{"admin":admin})
+        else:
+            return redirect('adminlogin')
+
+def delete_mechanic(request,id):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        mech = mechanic.objects.get(id=id)
+        mech.delete()
+        return redirect('show_mechanic')
+    else:
+        return redirect('adminlogin')
+
+def customer_view(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        customers = customer.objects.all()
+        return render(request,'car/admin/customer_view.html',{'admin':admin,'cust':customers})
+    else:
+        return redirect('adminlogin')
+
+def admin_service(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        return render(request,'car/admin/admin_service.html',{'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def customer_request(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        cusreq = cus_request.objects.filter(status = 'Pending')
+        return render(request,'car/admin/customer_request.html',{'cus':cusreq,'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def admin_update_cus_request(request,id):
+    if request.method == 'POST':
+        if 'admin' in request.session:
+            admin  = superuser.objects.get(fname = request.session['admin'])
+            cost = request.POST.get('cost')
+            status = request.POST.get('status')
+            mech = request.POST.get('mech')
+            obj = mechanic.objects.get(fname=mech)
+            cus_request.objects.filter(id=id).update(cost=cost,status=status,Mechanic_id=obj.id)
+
+            return redirect('customer_request')
+        else:
+            return redirect('adminlogin')
+    else:
+        mech = mechanic.objects.all()
+        return render(request ,'car/admin/admin_update_cus_request.html',{'mech':mech})
+
+def admin_repair_done(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        cusreq = cus_request.objects.all().filter((Q(status='Repairing') | Q(status = 'Repairing Done'))).exclude(status='Released')
+        return render(request,'car/admin/admin_update_repairing_done.html',{'cus':cusreq,'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def admin_release_req(request,id):
+    if request.method == 'POST':
+        if 'admin' in request.session:
+            admin  = superuser.objects.get(fname = request.session['admin'])
+            status = request.POST.get('status')
+            cus_request.objects.filter(id=id).update(status=status)
+            return redirect('admin_repair_done')
+        else:
+            return redirect('adminlogin')
+    else:
+        mech = mechanic.objects.all()
+        return render(request ,'car/admin/admin_update_release_req.html',{'mech':mech})
+
+def admin_delete_request(request,id):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        cusreq = cus_request.objects.get(id=id)
+        cusreq.delete()
+        return redirect('customer_request')
+
+def admin_view_all_cusrequest(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        cusreq = cus_request.objects.all().exclude()
+        return render(request,'car/admin/admin_view_all_request.html',{'cus':cusreq,'admin':admin})
+
+def admin_view_released_request(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        cusreq = cus_request.objects.all().filter(status='Released')
+        return render(request,'car/admin/admin_view_released_request.html',{'cus':cusreq,'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+
+def delete_customer(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        customers = customer.objects.get(id=id)
+        customers.delete()
+        return redirect('customer_view')
+
+def add_admin(request):
+    if request.method == 'POST' and request.FILES['image']:
+        try:
+            if superuser.objects.get(email = request.POST['email']):   
+                mail = "Already Registered with this email!"
+                return render(request,"car/admin/add_admin.html",{"mail":mail})
+        except:
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            email = request.POST.get('email')
+            mobile = request.POST.get('mobile_no')
+            gender = request.POST.get('gender')
+            address = request.POST.get('address')
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            char = string.ascii_letters + string.digits
+            password ="".join(choice(char)
+            for x in range(randint(6,10)))
+            reg = superuser(fname = fname,lname=lname,email=email,mobile=mobile,gender=gender,address=address,password=password,image=myfile)
+            reg.save()
+            stu = superuser.objects.all()
+            text = "Your Password Will Be Sent Your Registered Mail id..!"
+            send_mail('Registered Successfully car care Center', f'You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
+            admin = superuser.objects.get(fname = request.session['admin'])
+            return render(request,"car/admin/add_admin.html",{"text":text,'admin':admin})
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            return render(request,"car/admin/add_admin.html",{'admin':admin})
+        else:
+            return redirect('adminlogin')
+            
+
+def show_admin(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        add = superuser.objects.all()
+        return render(request,'car/admin/show_admin.html',{'admin':admin,'cust':add})
+    else:
+        return redirect('adminlogin')
+
+
+def admin_logout(request):
+    if 'admin' in request.session:
+        del request.session['admin']
+        return redirect('adminlogin')
+
+def download_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="Customer Request.csv"' # your filename
+ 
+    writer = csv.writer(response)
+    writer.writerow(['ID','Category','Number','Name','Model','Brand','Problem','Date','Status','Cost','Payment Status'])
+ 
+    users = cus_request.objects.all().values_list('id','category','number','name','model','brand','problem','date','status','cost','payment_status')
+ 
+    for user in users:
+        writer.writerow(user)  
+    return response
+
+def admin_view_payment(request):
+    if 'admin' in request.session:
+        admin  = superuser.objects.get(fname = request.session['admin'])
+        pay = paytm.objects.all().exclude(STATUS = 'TXN_FAIL')
+        return render(request,'car/admin/admin_view_cust_payment.html',{'cus':pay,'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+
+
+def adminforgotpass(request):
+    if request.method == 'POST':         
+        try:
+            useremail = request.POST.get('email')
+            mail = superuser.objects.get(email = useremail)
+            num = "1234567890"
+            otp = randint(0000,9999)
+            # for i in range(4):
+                # otp += num[math.floor(random.random() * 10)]
+            request.session['email'] = mail.email
+            request.session['otp'] = otp
+            send_mail('Forgot Password(car care Center)', f'Admin otp is: {otp}', 'jigarramani40@gmail.com', [f'{useremail}'])
+            return redirect('admin_check_otp')   
+        except:
+            text = "Email is not Registered!"
+            return render(request,'car/admin/adminforgotpass.html',{'mail':text})
+    else:   
+        return render(request,'car/admin/adminforgotpass.html')
+
+def admin_check_otp(request):
+    if request.method == 'POST':
+        otppass = int(request.POST.get('otppass'))
+        if otppass==request.session.get('otp'):
+            return redirect('adminforgotpasschange')  
+        else:
+            text = "you have entered wrong otp..!"
+            return render(request,'car/admin/admin_check_otp.html',{'otp':text})
+    else:   
+        return render(request,"car/admin/admin_check_otp.html")
+
+def adminforgotpasschange(request):
+    if request.method == 'POST':
+        newpass = request.POST.get('newpass')
+        superuser.objects.all().filter(email = request.session['email']).update(password=newpass)
+        text = 'Your Password has Succesfully Change!'
+        return redirect('adminlogin')
+    else:
+        return render(request,'car/admin/admin_forgot_pass_change.html')
+
+def paytm_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="Payment.csv"' # your filename
+ 
+    writer = csv.writer(response)
+    writer.writerow(['Order ID','Amount','Bank ID','Bank Name','Date','Status'])
+ 
+    users = paytm.objects.all().values_list('ORDER_ID','TXN_AMOUNT','BANKTXNID','BANKNAME','TXNDATE','STATUS').exclude(STATUS='TXN_FAIL')
+ 
+    for user in users:
+        writer.writerow(user)  
+    return response
+
