@@ -14,6 +14,8 @@
 		integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 	<!-- JavaScript Bundle with Popper -->
 	<link rel="stylesheet" href="{% static  "style.css" %}">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<style>
 		.hovernow {
 
@@ -24,6 +26,8 @@
 		.hovernow:hover {
 			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 		}
+
+		
 	</style>
 
 
@@ -38,23 +42,24 @@
     transition: margin-left .5s;">
 
 		<!-- ****** cards start ********** -->
+		
 		<div class="row">
 			<div class="col-3">
 				<div class="counter bg-primary hovernow ">
 					<p>
-						<i class="fa fa-user"></i> 
+						<i class="fas fa-users"></i>
 					</p>
 					<h3>{{mech}}</h3>
-					<p><a href = "/show_mechanic" style="text-decoration: none;color: white;">Mechanic</a></p>
+					<p><a href = "/show_mechanic" style="text-decoration: none;color: white;">Mechanic</a> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></p>
 				</div>
 			</div>
 			<div class="col-3">
 				<div class="counter bg-warning hovernow ">
 					<p>
-						<i class="fa fa-user"></i> 
+						<i class="fas fa-users"></i>
 					</p>
 					<h3>{{cust}}</h3>
-					<p><a href = "customer_view" style="text-decoration: none;color: white;">Customer</a></p>
+					<p><a href = "customer_view" style="text-decoration: none;color: white;">Customer</a> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></p>
 				</div>
 			</div>
 			<div class="col-3">
@@ -62,17 +67,17 @@
 					<p>
 						<i class="fas fa-check-circle"></i>
 					</p>
-					<h3>{{work_in_completed}}</h3>
-					<p><a href = "#" style="text-decoration: none;color: white;">Add Job</a></p>
+					<h3>{{job}}</h3>
+					<p><a href = "/job_service "style="text-decoration: none;color: white;">Add Job</a> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></p>
 				</div>
 			</div>
 			<div class="col-3">
 				<div class="counter bg-danger hovernow">
 					<p>
-						<i class="fas fa-rupee-sign"></i>
+						<i class="fas fa-bed"></i>
 					</p>
-					<h3></h3>
-					<p><a href = "#" style="text-decoration: none;color: white;">Mechanic Leave</a></p>
+					<h3>{{leaves}}</h3>
+					<p><a href = "/leave_detail" style="text-decoration: none;color: white;">Mechanic Leave</a> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></p>
 				</div>
 			</div>
 		</div><br><br><br><br>

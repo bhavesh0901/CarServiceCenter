@@ -1,0 +1,103 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en" dir="ltr">
+
+{% include 'car/admin/adminbase.html' %}
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Car Care Center</title>
+    <link rel="icon" type="image/png" href="{% static " images/favicon.png " %}">
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css" %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css" %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css" %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css" %}">
+    <link rel="stylesheet" href="{% static " css/style.css" %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css" %}"
+        media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css" %}" media="(max-width: 1199px)">
+    <!-- font - fontawesome -->
+    <link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css" %}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "UA-97489509-8");
+    </script>
+    <style media="screen">
+        .alert {
+            margin-left: 25%;
+            margin-right: 25%;
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: red;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .hovernow {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .hovernow:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+
+</head>
+
+<body>
+    <div style="text-align:center;color:red; margin-top: 50px;">
+        <h1>Feedback Sent By Customer / Mechanic</h1>
+    </div><br>
+    {%for f in feedback%}
+    <div class="counter bg-success hovernow" style="border-radius: 5px; width:50%; margin:auto; text-align:left">
+        <div style="margin: 10px;">
+            <span onclick="this.parentElement.style.display='none';"><a class="closebtn" style="text-decoration: none;" href="{% url 'delete_feedback' f.id %}"><i class="fas fa-trash-alt"></i></a></span>
+            <strong>{{f.date}} ||By :{{f.username}}</strong><br>
+            <strong>Email : {{f.email}}</strong><br>
+            {{f.msg}}
+            <hr>
+        </div>
+    </div>
+    <br>
+    {%endfor%}
+
+
+</body>
+        <script src="{% static " vendor/jquery/jquery.min.js" %} "></script>
+		<script src=" {% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %} "></script>
+		<script src=" {% static "vendor/owl-carousel/owl.carousel.min.js" %} "></script>
+		<script src=" {% static "vendor/nouislider/nouislider.min.js" %} "></script>
+		<script src=" {% static "vendor/photoswipe/photoswipe.min.js" %} "></script>
+		<script src=" {% static "vendor/photoswipe/photoswipe-ui-default.min.js" %} "></script>
+		<script src=" {% static "vendor/select2/js/select2.min.js" %} "></script>
+		<script src=" {% static "js/number.js" %} "></script>
+        <script src=" {% static "js/main.js" %} "></script>
+</html>

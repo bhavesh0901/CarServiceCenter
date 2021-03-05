@@ -1,0 +1,138 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Job Apply — Red Parts</title>
+    <link rel="icon" type="image/png" href="{% static " images/favicon.png " %}">
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css " %}"
+        media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+
+    <!-- font - fontawesome -->
+    <link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css " %}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "UA-97489509-8");
+        $('.alert').alert()
+    </script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+</head>
+
+<body>
+    {% include "car/admin/adminbase.html" %}
+
+    <!-- site__body -->
+    <div class="site__body">
+        <div class="block-space block-space--layout--after-header"></div>
+        <div class="block">
+            <div class="container container--max--lg">
+                <div class="row">
+                    <div class="col-md-8 d-flex mt-4 mt-md-0" style="margin: auto;">
+                        <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
+                            <div class="card-body card-body--padding--2">
+                              
+                                <h3 class="card-title">Add Sub Category</h3>
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> </span>
+                                        </div>
+                                        <input name="name" id="name" class="form-control"
+                                            placeholder="Sub Category Name" type="address">
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <input name="image" id="image" class="form-control" type="file">
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <textarea id="description" name="description" class="form-control "
+                                            placeholder="Description" rows="4 "></textarea>
+                                    </div>
+                                    <!-- form-group// -->
+
+                                    <div class="row">
+                                        <div class="form-group input-group col-md-6">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fa fa-rupee-sign"></i> </span>
+                                            </div>
+                                            <input name="price" id="price" class="form-control" placeholder="Price"
+                                                type="text">
+                                        </div>
+                                        <!-- form-group// -->
+                                        <div class="form-group input-group col-md-6">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"> <i class="fas fa-car"></i> </span>
+                                            </div>
+                                            <input name="fitmodel" id="fitmodel" class="form-control"
+                                                placeholder="Fit in Car Model" type="text">
+                                        </div>
+                                        <!-- form-group// -->
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            
+                                        </div>
+                                        <select name="partscategory" class="form-control">
+                                            {% for c in cat %}
+                                            <option value="{{c.name}}">{{c.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <button type="submit" id="btnSubmit" class="btn btn-primary btn-block"> Add
+                                            Sub Category
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-space block-space--layout--before-footer"></div>
+    </div>
+    <!-- site__body / end -->
+    <!-- scripts -->
+    <script src="{% static " vendor/jquery/jquery.min.js " %}"></script>
+    <script src="{% static " vendor/bootstrap/js/bootstrap.bundle.min.js " %}"></script>
+    <script src="{% static " vendor/owl-carousel/owl.carousel.min.js " %}"></script>
+    <script src="{% static " vendor/nouislider/nouislider.min.js " %}"></script>
+    <script src="{% static " vendor/photoswipe/photoswipe.min.js " %}"></script>
+    <script src="{% static " vendor/photoswipe/photoswipe-ui-default.min.js " %}"></script>
+    <script src="{% static " vendor/select2/js/select2.min.js " %}"></script>
+    <script src="{% static " js/number.js " %}"></script>
+    <script src="{% static " js/main.js " %}"></script>
+    {% include "car/admin/footer.html" %}
+</body>
+
+</html>

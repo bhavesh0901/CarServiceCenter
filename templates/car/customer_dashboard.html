@@ -12,6 +12,7 @@
 	<!-- CSS only -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	
 	<!-- JavaScript Bundle with Popper -->
 	<link rel="stylesheet" href="{% static  "style.css" %}">
 	<style>
@@ -24,9 +25,26 @@
 		.hovernow:hover {
 			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 		}
+
+		/* Spinner */
+
+		.rotate {
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    -moz-transition: -moz-transform 0.4s ease-in-out;
+    -o-transition: -o-transform 0.4s ease-in-out;
+    -ms-transition: -ms-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+    cursor:pointer;
+}
+.rotate:hover { 
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+-ms-transform: rotateZ(360deg);
+-o-transform: rotateZ(360deg);
+transform: rotateZ(360deg);
+}
+		
 	</style>
-
-
 </head>
 
 <body>
@@ -50,7 +68,7 @@
 			</div>
 			<div class="col-3">
 				<div class="counter bg-warning hovernow ">
-					<p>
+					<p class="rotate">
 						<i class="fas fa-spinner"></i>
 					</p>
 					<h3>{{work_in_progress}}</h3>
@@ -82,8 +100,6 @@
 	</div>
 	{% include "car/footer.html" %}
 	<!-- end main content -->
-
-
 </body>
 
 </html>

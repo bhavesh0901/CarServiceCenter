@@ -12,17 +12,18 @@
     <!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
     <!-- css -->
-    <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/owl-carousel/assets/owl.carousel.min.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/photoswipe/photoswipe.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/photoswipe/default-skin/default-skin.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/select2/css/select2.min.css " %}">
-    <link rel="stylesheet" href="{% static "css/style.css " %}">
-    <link rel="stylesheet" href="{% static "css/style.header-spaceship-variant-one.css " %}" media="(min-width: 1200px)">
-    <link rel="stylesheet" href="{% static "css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+    <link rel="stylesheet" href="{% static " vendor/bootstrap/css/bootstrap.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css " %}"
+        media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- font - fontawesome -->
-    <link rel="stylesheet" href="{% static "vendor/fontawesome/css/all.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css " %}">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -34,62 +35,82 @@
         gtag("config", "UA-97489509-8");
         $('.alert').alert()
     </script>
-    <link rel="stylesheet" href="{% static  "style.css" %}">
+    <link rel="stylesheet" href="{% static  " style.css" %}">
 </head>
 
 <body>
     {% include "car/admin/adminbase.html" %}
-    <div class="wrapper">
 
         <!-- ****** table  start ********** -->
-        <div class="row">
-            <div class="col-12 col-m-12 col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 style="color:red; text-align:center">Mechanic List
-                        </h3>
 
-                    </div>
-                    <div class="card-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Mechanic Name</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>Salary</th>
-                                    <th>Address</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for w in mech %}
-                                <tr>
-                                    <td> {{w.fname}} {{w.lname}}</td>
-                                    <td> {{w.email}}</td>
-                                    <td> {{w.mobile}}</td>
-                                    <td> {{w.gender}}</td>
-                                    <td> {{w.designation}}</td>
-                                    <td>{{w.salary}}</td>
-                                    <td>{{w.address}}</td>
-                                            <td><a style="color:red; text-decoration:none;font-size:25px;" 
-                                                href="{% url 'delete_mechanic' w.id %}">&#10008;</a></td>
-                                </tr>
-                                {% endfor %}
+        <div class="site__body">
+            <div class="block">
+                <div class="col-12 col-m-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-12 col-lg-12 mt-12 mt-lg-0">
+                            <div class="dashboard">
 
-                            </tbody>
-                        </table>
-                       
+                                <div class="dashboard__orders card">
+                                    <div class="card-header">
+                                        <center>
+                                            <h5>Mechanic list</h5>
+                                        </center>
+                                    </div>
+                                    <div class="card-divider"></div>
+                                    <div class="card-table">
+                                        <div class="table-responsive-sm">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mechanic Name</th>
+                                                        <th>Email</th>
+                                                        <th>Mobile</th>
+                                                        <th>Gender</th>
+                                                        <th>Designation</th>
+                                                        <th>Salary</th>
+                                                        <th>Address</th>
+                                                        <th>Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for w in mech %}
+                                                    <tr>
+                                                        <td> {{w.fname}} {{w.lname}}</td>
+                                                        <td> {{w.email}}</td>
+                                                        <td> {{w.mobile}}</td>
+                                                        <td> {{w.gender}}</td>
+                                                        <td> {{w.designation}}</td>
+                                                        <td>{{w.salary}}</td>
+                                                        <td>{{w.address}}</td>
+                                                        <td><a style="color:red; text-decoration:none;font-size:25px;"
+                                                                href="{% url 'delete_mechanic' w.id %}"><i
+                                                                    class="fas fa-trash-alt"></i></a></td>
+                                                    </tr>
+                                                    {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                           
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" style="margin-top: 10px;"><a href="/add_mechanic"
+                                        style="text-decoration: none;color: white;"> Add Mechhanic</a></button>
+                        </div>
+                        
                     </div>
                 </div>
+
+                
+                </div>
             </div>
+           
+            <div class="block-space block-space--layout--before-footer"></div>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary"><a href="/add_mechanic" style="text-decoration: none;color: white;"> Add Mechhanic</a></button>
-        </div>
-    </div>
+        
     {% include "car/footer.html" %}
 </body>
 <!-- Mirrored from red-parts.html.themeforest.scompiler.ru/themes/red-ltr/shop-grid-6-columns-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 25 Jan 2021 07:35:20 GMT -->

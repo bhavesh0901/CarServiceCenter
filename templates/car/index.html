@@ -5,29 +5,30 @@
 
 <head>
 
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
-		<meta name="format-detection" content="telephone=no">
-		<title>Car Care Center</title>
-		<link rel="icon" type="image/png" href="{% static " images/favicon.png" %}"><!-- fonts -->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
-		<!-- css -->
-		<link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css" %}">
-		<link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css" %}">
-		<link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css" %}">
-		<link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css" %}">
-		<link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css" %}">
-		<link rel="stylesheet" href="{% static " css/style.css" %}">
-		<link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css" %}"
-			media="(min-width: 1200px)">
-		<link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css" %}"
-			media="(max-width: 1199px)">
-		<!-- font - fontawesome -->
-		<link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css" %}">
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
-		<script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag("js", new Date()); gtag("config", "UA-97489509-8");</script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<title>Car Care Center</title>
+	<link rel="icon" type="image/png" href="{% static " images/favicon.png" %}"><!-- fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+	<!-- css -->
+	<link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css" %}">
+	<link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css" %}">
+	<link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css" %}">
+	<link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css" %}">
+	<link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css" %}">
+	<link rel="stylesheet" href="{% static " css/style.css" %}">
+	<link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css" %}"
+		media="(min-width: 1200px)">
+	<link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css" %}" media="(max-width: 1199px)">
 
-	</head>
+	<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+	<!-- font - fontawesome -->
+	<link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css" %}">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+	<script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag("js", new Date()); gtag("config", "UA-97489509-8");</script>
+
+</head>
 
 <body>
 	{% include "car/base.html" %}
@@ -48,13 +49,13 @@
 			<div class="block-finder__body container container--max--xl">
 				<div class="block-finder__title">Best Service For Your Vehicle</div>
 				<div class="block-finder__subtitle">Provide All the Service For Your Car</div>
-				
+
 			</div>
 		</div>
-		<div class="block-features block block-features--layout--top-strip" ></div>
-			<div class="container center">
-				<ul class="block-features__list" >
-					<li class="block-features__item">
+		<div class="block-features block block-features--layout--top-strip"></div>
+		<div class="container center">
+			<ul class="block-features__list">
+				<li class="block-features__item">
 					<!--	<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
 								<path d="M44.6,26.9l-1.2-5c0.3-0.1,0.6-0.4,0.6-0.7v-0.8c0-1.7-1.4-3.2-3.2-3.2h-5.7v-1.7c0-0.9-0.7-1.6-1.6-1.6H23.1l6.4-2.6
 	c0.4-0.2,0.6-0.6,0.4-1c-0.2-0.4-0.6-0.6-1-0.4l-5.2,2.1c1.6-1,3.2-2.2,3.8-2.9c1.2-1.5,0.9-3.7-0.7-4.9c-1.5-1.2-3.7-0.9-4.9,0.7
@@ -96,11 +97,11 @@
 							<div class="block-features__item-title">Low Cost Service</div>
 							<div class="block-features__item-subtitle">For orders from $50</div>
 						</div> -->
-					</li> 
-					<li class="block-features__item">
-						<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
-								<path
-									d="M46.218,18.168h-0.262v-0.869c0-1.175-1.211-1.766-2.453-1.766c-0.521,0-0.985,0.094-1.366,0.263
+				</li>
+				<li class="block-features__item">
+					<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
+							<path
+								d="M46.218,18.168h-0.262v-0.869c0-1.175-1.211-1.766-2.453-1.766c-0.521,0-0.985,0.094-1.366,0.263
     c0.015-0.028,2.29-4.591,2.303-4.62c0.968-2.263-3.041-4.024-4.372-1.449l-5.184,10.166c-0.35,0.648-0.364,1.449,0.033,2.081
     c-0.206-0.107-0.432-0.166-0.668-0.166h-4.879c1.555-1.597,6.638-3.535,6.638-8.011c0-1.599-0.676-3.02-1.903-4.002
     c-1.088-0.87-2.52-1.35-4.033-1.35c-2.802,0-5.779,1.758-5.779,5.015c0,2.195,1.426,2.522,2.275,2.522
@@ -118,13 +119,13 @@
     c-0.233,0.468,0.109,1.017,0.629,1.017h1.932c0.388,0,0.703-0.315,0.703-0.703v-1.572c0-0.123,0.409-0.36,1.051-0.36
     c0.618,0,1.046,0.223,1.046,0.36v1.572c0,0.389,0.315,0.703,0.703,0.703h0.966c0.196,0,0.375,0.435,0.375,0.914
     C46.593,20.951,46.324,21.338,46.194,21.402L46.194,21.402z M41.046,17.984v0.184h-0.092L41.046,17.984z M41.046,17.984" />
-								<path d="M36.976,36.602c2.428-2.291,4.227-5.18,5.202-8.354c0.114-0.371-0.094-0.764-0.465-0.879
+							<path d="M36.976,36.602c2.428-2.291,4.227-5.18,5.202-8.354c0.114-0.371-0.094-0.764-0.465-0.879
     c-0.371-0.114-0.765,0.095-0.879,0.466c-0.903,2.941-2.571,5.62-4.823,7.744c-0.282,0.267-0.295,0.712-0.029,0.994
     C36.249,36.856,36.694,36.869,36.976,36.602L36.976,36.602z M36.976,36.602" />
-								<path d="M35.099,7.86c0.226-0.316,0.152-0.756-0.164-0.981C29.684,3.131,23.098,2.38,17.381,4.38
+							<path d="M35.099,7.86c0.226-0.316,0.152-0.756-0.164-0.981C29.684,3.131,23.098,2.38,17.381,4.38
     c-0.367,0.128-0.559,0.53-0.431,0.896c0.128,0.366,0.53,0.56,0.896,0.431c5.23-1.83,11.346-1.199,16.272,2.316
     C34.434,8.249,34.873,8.176,35.099,7.86L35.099,7.86z M35.099,7.86" />
-								<path d="M25.247,43.573c-0.857-0.491-1.854-0.639-2.807-0.416c-0.525,0.123-1.064,0.207-1.602,0.251
+							<path d="M25.247,43.573c-0.857-0.491-1.854-0.639-2.807-0.416c-0.525,0.123-1.064,0.207-1.602,0.251
     c-0.387,0.032-0.675,0.371-0.643,0.758c0.032,0.387,0.37,0.675,0.758,0.644c0.606-0.05,1.214-0.145,1.807-0.284
     c0.606-0.141,1.241-0.047,1.788,0.267c1.583,0.908,3.528,0.884,5.076-0.064c3.605-2.207,3.212-1.964,3.359-2.061
     c2.24-1.464,2.922-4.464,1.519-6.755l-2.538-4.145c-1.436-2.345-4.508-3.068-6.835-1.644l-3.235,1.981
@@ -134,8 +135,8 @@
     c0.009-1.248,0.644-2.379,1.699-3.025l2.742-1.679l6.261,10.224l-2.742,1.679C27.78,44.209,26.384,44.225,25.247,43.573
     L25.247,43.573z M26.622,30.977c1.54-0.495,3.282,0.119,4.142,1.525l2.538,4.145c0.865,1.413,0.611,3.242-0.524,4.383
     L26.622,30.977z M26.622,30.977" />
-								<path
-									d="M0.403,23.192c0.998,3.783,2.422,7.199,4.232,10.155c1.81,2.956,4.206,5.777,7.121,8.386
+							<path
+								d="M0.403,23.192c0.998,3.783,2.422,7.199,4.232,10.155c1.81,2.956,4.206,5.777,7.121,8.386
     c1.613,1.443,3.59,2.435,5.717,2.868c0.377,0.078,0.751-0.165,0.83-0.549c0.078-0.381-0.168-0.752-0.549-0.829
     c-1.883-0.383-3.632-1.261-5.06-2.538c-2.813-2.517-5.121-5.233-6.859-8.072c-1.739-2.839-3.108-6.13-4.071-9.78
     c-0.902-3.419-0.07-7.084,2.228-9.803c0.632-0.748,0.954-1.704,0.906-2.69C4.834,9.03,5.483,7.795,6.592,7.116l2.742-1.679
@@ -146,48 +147,54 @@
     l-2.538-4.145c-1.44-2.351-4.516-3.063-6.835-1.643L5.858,5.917C4.31,6.864,3.404,8.585,3.493,10.409
     c0.031,0.63-0.174,1.239-0.575,1.714C0.324,15.192-0.616,19.33,0.403,23.192L0.403,23.192z M14.728,6.314l2.538,4.145
     c0.865,1.414,0.61,3.243-0.524,4.383L10.586,4.788C12.12,4.295,13.864,4.903,14.728,6.314L14.728,6.314z M14.728,6.314" />
-							</svg></div>
-						<div class="block-features__item-info">
-							<div class="block-features__item-title">Support 24/7</div>
-							<div class="block-features__item-subtitle">Call us anytime</div>
-						</div>
-					</li>
-					<li class="block-features__item">
-						<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
-								<path d="M30,34.4H2.5c-0.5,0-0.9-0.4-0.9-0.9V7.7c0-0.5,0.4-0.9,0.9-0.9H42c0.5,0,0.9,0.4,0.9,0.9v11.2c0,0.4,0.4,0.8,0.8,0.8
+						</svg></div>
+					<div class="block-features__item-info">
+						<div class="block-features__item-title">Support 24/7</div>
+						<div class="block-features__item-subtitle">Call us anytime</div>
+					</div>
+				</li>
+				<li class="block-features__item">
+					<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
+							<path d="M30,34.4H2.5c-0.5,0-0.9-0.4-0.9-0.9V7.7c0-0.5,0.4-0.9,0.9-0.9H42c0.5,0,0.9,0.4,0.9,0.9v11.2c0,0.4,0.4,0.8,0.8,0.8
 	c0.4,0,0.8-0.4,0.8-0.8V7.7c0-1.4-1.1-2.5-2.5-2.5H2.5C1.1,5.2,0,6.3,0,7.7v25.8C0,34.8,1.1,36,2.5,36H30c0.4,0,0.8-0.4,0.8-0.8
 	C30.8,34.7,30.5,34.4,30,34.4z" />
-								<path d="M15.4,18v-5.2c0-0.9-0.7-1.7-1.7-1.7H6.8c-0.9,0-1.7,0.7-1.7,1.7V18c0,0.9,0.7,1.7,1.7,1.7h6.9C14.6,19.7,15.4,18.9,15.4,18
+							<path d="M15.4,18v-5.2c0-0.9-0.7-1.7-1.7-1.7H6.8c-0.9,0-1.7,0.7-1.7,1.7V18c0,0.9,0.7,1.7,1.7,1.7h6.9C14.6,19.7,15.4,18.9,15.4,18
 	z M13.7,12.8V18c0,0,0,0.1-0.1,0.1h-3.5v-1.8h0.9c0.4,0,0.8-0.4,0.8-0.8c0-0.4-0.4-0.8-0.8-0.8h-0.9v-1.8L13.7,12.8
 	C13.7,12.8,13.7,12.8,13.7,12.8z M6.8,18v-5.2c0,0,0-0.1,0.1-0.1h1.8V18L6.8,18C6.8,18,6.8,18,6.8,18z" />
-								<path d="M32.2,11.1c-0.8-0.5-1.7-0.8-2.6-0.8c-2.6,0-4.7,2.1-4.7,4.7s2.1,4.7,4.7,4.7c1,0,1.8-0.3,2.6-0.8c0.8,0.5,1.7,0.8,2.6,0.8
+							<path d="M32.2,11.1c-0.8-0.5-1.7-0.8-2.6-0.8c-2.6,0-4.7,2.1-4.7,4.7s2.1,4.7,4.7,4.7c1,0,1.8-0.3,2.6-0.8c0.8,0.5,1.7,0.8,2.6,0.8
 	c2.6,0,4.7-2.1,4.7-4.7s-2.1-4.7-4.7-4.7C33.8,10.3,32.9,10.6,32.2,11.1z M26.5,15c0-1.7,1.4-3.1,3.1-3.1c0.5,0,0.9,0.1,1.4,0.3
 	C30.4,13,30.1,14,30.1,15c0,1,0.3,1.9,0.9,2.7c-0.4,0.2-0.9,0.3-1.4,0.3C27.9,18,26.5,16.7,26.5,15z M37.8,15c0,1.7-1.4,3.1-3.1,3.1
 	c-0.5,0-0.9-0.1-1.4-0.3c0.6-0.8,0.9-1.7,0.9-2.7c0-0.4-0.4-0.8-0.8-0.8s-0.8,0.4-0.8,0.8c0,0.6-0.2,1.2-0.5,1.6
 	c-0.3-0.5-0.5-1.1-0.5-1.6c0-1.7,1.4-3.1,3.1-3.1C36.4,11.9,37.8,13.3,37.8,15z" />
-								<path
-									d="M6,24.1c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h6.9c0.4,0,0.8-0.4,0.8-0.8c0-0.4-0.4-0.8-0.8-0.8H6z" />
-								<path
-									d="M30.9,29.2H6c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h24.9c0.4,0,0.8-0.4,0.8-0.8S31.3,29.2,30.9,29.2z" />
-								<path
-									d="M16.3,24.1c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h6.9c0.4,0,0.8-0.4,0.8-0.8c0-0.4-0.4-0.8-0.8-0.8H16.3z" />
-								<path
-									d="M31.7,24.1h-5.2c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h5.2c0.4,0,0.8-0.4,0.8-0.8C32.5,24.4,32.2,24.1,31.7,24.1z" />
-								<path
-									d="M46.3,30.2v-3.6c0-3.3-2.7-6-6-6c-3.3,0-6,2.7-6,6v3.6c-1,0.3-1.7,1.3-1.7,2.4v7.7c0,1.4,1.1,2.5,2.5,2.5h10.3
+							<path
+								d="M6,24.1c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h6.9c0.4,0,0.8-0.4,0.8-0.8c0-0.4-0.4-0.8-0.8-0.8H6z" />
+							<path
+								d="M30.9,29.2H6c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h24.9c0.4,0,0.8-0.4,0.8-0.8S31.3,29.2,30.9,29.2z" />
+							<path
+								d="M16.3,24.1c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h6.9c0.4,0,0.8-0.4,0.8-0.8c0-0.4-0.4-0.8-0.8-0.8H16.3z" />
+							<path
+								d="M31.7,24.1h-5.2c-0.4,0-0.8,0.4-0.8,0.8c0,0.4,0.4,0.8,0.8,0.8h5.2c0.4,0,0.8-0.4,0.8-0.8C32.5,24.4,32.2,24.1,31.7,24.1z" />
+							<path
+								d="M46.3,30.2v-3.6c0-3.3-2.7-6-6-6c-3.3,0-6,2.7-6,6v3.6c-1,0.3-1.7,1.3-1.7,2.4v7.7c0,1.4,1.1,2.5,2.5,2.5h10.3
 	c1.4,0,2.5-1.1,2.5-2.5v-7.7C48,31.5,47.3,30.5,46.3,30.2z M40.3,22.2c2.4,0,4.3,2,4.3,4.3v3.5H36v-3.5C36,24.2,37.9,22.2,40.3,22.2
 	z M46.4,40.3c0,0.5-0.4,0.9-0.9,0.9H35.2c-0.5,0-0.9-0.4-0.9-0.9v-7.7c0-0.5,0.4-0.9,0.9-0.9h10.3c0.5,0,0.9,0.4,0.9,0.9V40.3z" />
-								<path d="M40.3,33.5c-1.2,0-2.1,0.9-2.1,2.1c0,0.9,0.5,1.6,1.3,1.9v1.1c0,0.4,0.4,0.8,0.8,0.8s0.8-0.4,0.8-0.8v-1.1
+							<path d="M40.3,33.5c-1.2,0-2.1,0.9-2.1,2.1c0,0.9,0.5,1.6,1.3,1.9v1.1c0,0.4,0.4,0.8,0.8,0.8s0.8-0.4,0.8-0.8v-1.1
 	c0.8-0.3,1.3-1.1,1.3-1.9C42.4,34.4,41.5,33.5,40.3,33.5z M40.3,35.1c0.3,0,0.5,0.2,0.5,0.5s-0.2,0.5-0.5,0.5s-0.5-0.2-0.5-0.5
 	S40.1,35.1,40.3,35.1z" />
-							</svg></div>
-						<div class="block-features__item-info">
-							<div class="block-features__item-title">100% Safety</div>
-							<div class="block-features__item-subtitle">Only secure payments</div>
-						</div>
-					</li>
-					 <li class="block-features__item"></li>
-					<!--	<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
+						</svg></div>
+					<div class="block-features__item-info">
+						<div class="block-features__item-title">100% Safety</div>
+						<div class="block-features__item-subtitle">Only secure payments</div>
+					</div>
+				</li>
+				<li class="block-features__item"></li>
+
+				<!-- Car Parts -->
+
+
+
+
+				<!--	<div class="block-features__item-icon"><svg width="48" height="48" viewBox="0 0 48 48">
 								<path d="M48,3.3c0-0.9-0.3-1.7-1-2.3c-0.6-0.6-1.4-1-2.3-1c-0.9,0-1.7,0.3-2.3,1c-0.3,0.3-0.7,0.8-1,1.1c-0.3,0.3-0.2,0.8,0.1,1.1
 	c0.3,0.3,0.8,0.2,1.1-0.1c0.4-0.5,0.7-0.9,0.9-1c0.3-0.3,0.8-0.5,1.2-0.5c0,0,0,0,0,0c0.5,0,0.9,0.2,1.2,0.5
 	c0.3,0.3,0.5,0.8,0.5,1.2c0,0.5-0.2,0.9-0.5,1.2c-0.3,0.3-1.3,1.1-2.7,2.1c-0.9-1.5-2.4-2.4-4.3-2.4H27.5c-1.5,0-3,0.6-4.1,1.7
@@ -211,14 +218,76 @@
 							<div class="block-features__item-title">Hot Offers</div>
 							<div class="block-features__item-subtitle">Discounts up to 90%</div>
 						</div>-->
-					</li> 
-				</ul>
-			</div>
+				</li>
+			</ul>
 		</div>
-		<div class="block-space block-space--layout--divider-nl"></div>
-	
 	</div>
+	<div class="block-space block-space--layout--divider-nl"></div>
+
+	</div>
+	<div class="container">
+
+		<div class="row">
 	
+		  <!-- /.col-lg-3 -->
+	
+		  <div class="col-lg-12">
+	
+			<div id="carouselExampleIndicators" class="carousel-inner slide my-4" style="width: 70%; margin: auto;" data-ride="carousel">
+			  <ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			  </ol>
+			  <div class="carousel-inner" role="listbox">
+				<div class="carousel-item active">
+				  <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+				</div>
+				<div class="carousel-item">
+				  <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+				</div>
+				<div class="carousel-item">
+				  <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+				</div>
+			  </div>
+			  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			  </a>
+			</div>
+	
+			
+			<div class="row">
+				{% for p in part %}
+			  <div class="col-lg-3 col-md-6 mb-4">
+				<div class="card h-100">
+				  <a href="/subcategory"><img class="card-img-top" src="{{p.image.url}}" alt="avatar"></a>
+				  <div class="card-body">	
+				  </div>
+				
+				  <h3 style="text-align: center;">{{p.name}}</h3>
+				
+				</div>
+			  </div>
+			 
+	
+			  {% endfor %}
+			</div>
+			
+			<!-- /.row -->
+	
+		  </div>
+		  <!-- /.col-lg-9 -->
+	
+		</div>
+		<!-- /.row -->
+	
+	  </div>
+
 
 	<div class="block-space block-space--layout--before-footer"></div>
 	</div><!-- site__body / end -->
@@ -1058,15 +1127,18 @@
 		</div>
 	</div><!-- photoswipe / end -->
 	<!-- scripts -->
-	<script src="{% static " vendor/jquery/jquery.min.js" %}"></script>
-	<script src="{% static " vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-	<script src="{% static " vendor/owl-carousel/owl.carousel.min.js" %}"></script>
-	<script src="{% static " vendor/nouislider/nouislider.min.js" %}"></script>
-	<script src="{% static " vendor/photoswipe/photoswipe.min.js" %}"></script>
-	<script src="{% static " vendor/photoswipe/photoswipe-ui-default.min.js" %}"></script>
-	<script src="{% static " vendor/select2/js/select2.min.js" %}"></script>
-	<script src="{% static " js/number.js" %}"></script>
-	<script src="{% static " js/main.js" %}"></script>
+	<script src="{% static "vendor/jquery/jquery.min.js" %}"></script>
+	<script src="{% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+	<script src="{% static "vendor/owl-carousel/owl.carousel.min.js" %}"></script>
+	<script src="{% static "vendor/nouislider/nouislider.min.js" %}"></script>
+	<script src="{% static "vendor/photoswipe/photoswipe.min.js" %}"></script>
+	<script src="{% static "vendor/photoswipe/photoswipe-ui-default.min.js" %}"></script>
+	<script src="{% static "vendor/select2/js/select2.min.js" %}"></script>
+	<script src="{% static "js/number.js" %}"></script>
+	<script src="{% static "js/main.js" %}"></script>
+
+	<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 	{% include "car/footer.html" %}
 </body>
 <!-- Mirrored from red-parts.html.themeforest.scompiler.ru/themes/red-ltr/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 25 Jan 2021 07:34:41 GMT -->

@@ -3,64 +3,82 @@
 
 {% load static %}
 <html>
-    <head>
-		<script>window.document.title="Car Care Center-Payment";</script>
-        <title></title>
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="{% static  "style.css" %}">
-    </head>
-    <body>
-        <div class="row">
+<head>
+	<script>window.document.title = "Car Care Center-Payment";</script>
+	<title></title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="{% static  " style.css" %}">
+</head>
+
+<body>
+
+	<div class="site__body">
+	
+		<div class="block">
 			<div class="col-12 col-m-12 col-sm-12">
-				<div class="card">
-					<div class="card-header">
-						<h3 style="color:red; text-align:center" >Approved Request With Cost
-						</h3>
+				<div class="row">
+					<div class="col-12 col-lg-12 mt-12 mt-lg-0">
+						<div class="dashboard">
 
-					</div>
-					<div class="card-content">
-						<table>
-							<thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Amount</th>
-                  <th>Bank ID</th>
-                  <th>Bank Name</th>
-				  <th>Date</th>
-				  <th>Status</th>
-					<th>Invoice</th>
-                </tr>
-							</thead>
-							<tbody>
-                {% for i in obj %}
-                <tr>
-                  <td>{{i.ORDER_ID}}</td>
-                  <td>{{i.TXN_AMOUNT}}</td>
-                  <td>{{i.BANKTXNID}}</td>
-                  <td>{{i.BANKNAME}}</td>
-                  <td>{{i.TXNDATE}}</td>
-				  <td>{{i.STATUS}}</td>
+							<div class="dashboard__orders card">
+								<div class="card-header">
+									<center>
+										<h5>Approved Request With Cost</h5>
+									</center>
+								</div>
+								<div class="card-divider"></div>
+								<div class="card-table">
+									<div class="table-responsive-sm">
+										<table>
+											<thead>
+												<tr>
+													<th>Order ID</th>
+													<th>Amount</th>
+													<th>Bank ID</th>
+													<th>Bank Name</th>
+													<th>Date</th>
+													<th>Status</th>
+													<th>Invoice</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for i in obj %}
+												<tr>
+													<td>{{i.ORDER_ID}}</td>
+													<td>{{i.TXN_AMOUNT}}</td>
+													<td>{{i.BANKTXNID}}</td>
+													<td>{{i.BANKNAME}}</td>
+													<td>{{i.TXNDATE}}</td>
+													<td>{{i.STATUS}}</td>
 
-					<td><a href="/Payment_invoice/{{i.ORDER_ID}}">Download</a></td>
-				</tr>
-
-				
-
-                {% endfor %}
-				
-
-
-							</tbody>
-						</table>
+													<td><a href="/Payment_invoice/{{i.ORDER_ID}}"><i
+																class="fas fa-download"
+																style="margin-left: 15px;"></i></a></td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-<!-- ****** table start ********** -->
+		<div class="block-space block-space--layout--before-footer"></div>
 	</div>
+
 	<!-- end main content -->
-{% include "car/footer.html" %}
-    </body>
+	<br>
+	<br><br><br><br><br><br><br><br><br><br>
+	{% include "car/footer.html" %}
+</body>
+
 </html>

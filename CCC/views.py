@@ -76,14 +76,12 @@ def response(request):
         paytm.objects.filter(ORDER_ID =ORDER_ID).update(TXN_AMOUNT=TXN_AMOUNT,BANKTXNID=BANKTXNID,BANKNAME=BANKNAME,STATUS=STATUS)
         obj = paytm.objects.filter(ORDER_ID=ORDER_ID)
         id = obj[0].Cus_Request.id
-        obj1 = cus_request.objects.filter(id=id).update(payment_status = True)
-       
+        obj1 = cus_request.objects.filter(id=id).update(payment_status = True)    
         # save success details to db; details in resp['paytm']
         return redirect('invoice')
     else:
-
         # check what happened; details in resp['paytm']
-        return HttpResponse("<center><h1>Transaction Failed</h1><center>", status=400)
+         return redirect('invoice')
        
 
         
@@ -91,10 +89,13 @@ def response(request):
 # Create your views here.
 
 def index(request):
-    return render(request,"car/index.html")
+    part = parts_category.objects.filter()
+    return render(request,"car/index.html",{'part':part})
+
 
 def home(request):
-    return render(request,"car/index.html")
+    parts = parts_category.objects.all()
+    return render(request,"car/index.html",{'parts':parts})
 
 def login(request): 
     return render(request,"car/login.html")
@@ -130,7 +131,7 @@ def forgotpassword(request):
 
             mail = customer.objects.get(email = useremail)
             num = "1234567890"
-            otp = randint(000000,99999)
+            otp = randint(000000,999999)
             # for i in range(4):
                 # otp += num[math.floor(random.random() * 10)]
             request.session['email'] = mail.email
@@ -190,7 +191,7 @@ def customerregister(request):
             reg.save()
             stu = customer.objects.all()
             text = "Your Password Will Be Sent Your Registered Mail id..!"
-            send_mail('Registered Successfully car care Center', f'You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
+            send_mail('Registered Successfully car care Center', f'Hello {fname} \n You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
             return render(request,"car/customerregister.html",{"text":text})
     else:
         return render(request,"car/customerregister.html")
@@ -398,6 +399,9 @@ def customer_add_request(request):
     if request.method == 'POST':
         if 'user' in request.session:
             cust = customer.objects.get(fname=request.session['user'])
+            # char = string.ascii_letters + string.digits
+            # orderid ="".join(choice(char)
+            # for x in range(randint(6,10)))
             category = request.POST.get('category')
             number = request.POST.get('number')
             name = request.POST.get('name')
@@ -584,7 +588,7 @@ def mechanic_base(request):
 def mechanic_service(request):
     if 'mec' in request.session:
         user = mechanic.objects.get(fname = request.session['mec'])
-        enquiry = cus_request.objects.all().filter(Mechanic_id = user.id)
+        enquiry = cus_request.objects.all().filter(Mechanic_id = user.id).exclude(status='Released')
         return render(request,"car/mechanicservice.html",{"mech":user,"work":enquiry})
     else:
         return redirect('mechaniclogin')
@@ -740,7 +744,8 @@ def admin_profile(request):
     if 'admin' in request.session:
         admin = superuser.objects.get(fname = request.session['admin'])
         cus= superuser.objects.get(id=admin.id)
-        return render(request,"car/admin/admin_profile.html",{"admin":admin,"stu":cus})
+        leaves = apply_leave.objects.all().filter(status="Pending").count()
+        return render(request,"car/admin/admin_profile.html",{"admin":admin,"stu":cus,'leave':leaves})
     else:
         return redirect('adminlogin')
 
@@ -776,8 +781,11 @@ def admin_dashboard(request):
     if 'admin' in request.session:
         admin = superuser.objects.get(fname = request.session['admin'])
         mechanics = mechanic.objects.all().count()
+        job = job_apply.objects.all().count()
         customers = customer.objects.all().count()
-        return render(request,'car/admin/admin_dashboard.html',{'admin':admin,'mech':mechanics,'cust':customers})
+        leaves  = apply_leave.objects.filter(status='Pending').count()
+    
+        return render(request,'car/admin/admin_dashboard.html',{'admin':admin,'mech':mechanics,'cust':customers,'job':job,'leaves':leaves})
     else:
         return redirect('adminlogin')
 
@@ -912,8 +920,9 @@ def admin_release_req(request,id):
         else:
             return redirect('adminlogin')
     else:
+        admin  = superuser.objects.get(fname = request.session['admin'])
         mech = mechanic.objects.all()
-        return render(request ,'car/admin/admin_update_release_req.html',{'mech':mech})
+        return render(request ,'car/admin/admin_update_release_req.html',{'mech':mech,'admin':admin})
 
 def admin_delete_request(request,id):
     if 'admin' in request.session:
@@ -968,7 +977,7 @@ def add_admin(request):
             reg.save()
             stu = superuser.objects.all()
             text = "Your Password Will Be Sent Your Registered Mail id..!"
-            send_mail('Registered Successfully car care Center', f'You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
+            send_mail('Registered Successfully car care Center', f'Hello, {fname} \n You Are registered Successfuly in Our System!\n Your Password is: {password}', 'jigarramani40@gmail.com', [f'{email}'])
             admin = superuser.objects.get(fname = request.session['admin'])
             return render(request,"car/admin/add_admin.html",{"text":text,'admin':admin})
     else:
@@ -1055,6 +1064,169 @@ def adminforgotpasschange(request):
     else:
         return render(request,'car/admin/admin_forgot_pass_change.html')
 
+def job_service(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        return render(request,'car/admin/admin_job_service.html',{'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def job_detail(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        desc = job_desc.objects.all()
+        return render(request,'car/admin/job_detail.html',{'admin':admin,'desc':desc})
+    else:
+        return redirect('adminlogin')
+
+def add_job(request):
+    if request.method == "POST":
+        if 'admin' in request.session:
+            img = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(img.name, img)
+            uploaded_file_url = fs.url(filename)
+            admin = superuser.objects.get(fname = request.session['admin'])
+            pname = request.POST.get('post_name')
+            obj = post_name.objects.get(post=pname)
+            qualification = request.POST.get('qualification')
+            experience = request.POST.get('experience')
+            skills = request.POST.get('skills')
+            location = request.POST.get('job_loc')
+            salary = request.POST.get('salary')
+            job = job_desc(image=img,post_name_id = obj.id,qualification=qualification,experience=experience,skill=skills,job_location=location,salary=salary)
+            job.save()
+            return redirect('job_detail')
+        else:
+            return redirect('adminlogin')
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            pname = post_name.objects.all()
+            return render(request, "car/admin/add_job.html",{'pname':pname,'admin':admin})
+        else:
+            return redirect('adminlogin')
+
+def upade_job(request,id):
+    if request.method == "POST":
+        if 'admin' in request.session:
+            img = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(img.name, img)
+            uploaded_file_url = fs.url(filename)
+            pname = request.POST.get('post_name')
+            obj = post_name.objects.get(post=pname)
+            qualification = request.POST.get('qualification')
+            experience = request.POST.get('experience')
+            skills = request.POST.get('skills')
+            location = request.POST.get('job_loc')
+            salary = request.POST.get('salary')
+            enquiry = job_desc.objects.all().filter(id=id).update(image=img,post_name_id = obj.id,qualification=qualification,experience=experience,skill=skills,job_location=location,salary=salary)
+            return redirect('job_detail')
+        else:
+            return redirect('adminlogin')
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            desc = job_desc.objects.get(id=id)
+            pname = post_name.objects.all()
+            return render(request, "car/admin/add_job.html",{'admin':admin,'desc':desc,'pname':pname})
+        else:
+            return redirect('adminlogin')
+
+def delete_job(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        job = job_desc.objects.get(id=id)
+        job.delete()
+        return redirect('job_detail')
+
+def requirement(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        apply = job_apply.objects.all()
+        return render(request,'car/admin/requirement.html',{'admin':admin,'apply':apply})
+    else:
+        return redirect('adminlogin')
+    
+def delete_requirement(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        job = job_apply.objects.get(id=id)
+        job.delete()
+        return redirect('requirement')
+
+def leave_detail(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        leave = apply_leave.objects.all()
+        return render(request,'car/admin/admin_leave_detail.html',{'admin':admin,'leave':leave})
+    else:
+        return redirect('adminlogin')
+
+def update_leave(request,id):
+    if request.method == "POST":
+        if 'admin' in request.session:
+            status = request.POST.get('status')
+            ad_reason = request.POST.get('reason')
+            apply_leave.objects.all().filter(id=id).update(status=status,admin_reason=ad_reason)
+            return redirect('leave_detail')
+        else:
+            return redirect('adminlogin')
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            leaves = apply_leave.objects.get(id=id)
+            return render(request, "car/admin/update_leave.html",{'admin':admin,'leaves':leaves})
+        else:
+            return redirect('adminlogin')
+    
+def delete_leave(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        leave = apply_leave.objects.get(id=id)
+        leave.delete()
+        return redirect('leave_detail')
+
+
+def admin_delete_all_req(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        cus = cus_request.objects.get(id=id)
+        cus.delete()
+        return redirect('admin_view_all_cusrequest')
+
+def admin_feedback(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        ad_feedback = feedback.objects.all()
+        return render(request,'car/admin/admin_feedback.html',{'admin':admin,'feedback':ad_feedback})
+    else:
+        return redirect('adminlogin')
+
+def delete_feedback(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        feed = feedback.objects.get(id=id)
+        feed.delete()
+        return redirect('admin_feedback')
+
+def admin_contactus(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        contactus = contact.objects.all()
+        return render(request,'car/admin/view_contactus.html',{'admin':admin,'contactus':contactus})
+    else:
+        return redirect('adminlogin')
+
+def delete_contactus(request,id):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        cont = contact.objects.get(id=id)
+        cont.delete()
+        return redirect('admin_contactus')
+
+
 def paytm_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="Payment.csv"' # your filename
@@ -1068,3 +1240,77 @@ def paytm_csv(request):
         writer.writerow(user)  
     return response
 
+
+
+#==================================================#
+#              Admin Spare Parts                   #
+#==================================================#
+
+
+def admin_spare_parts(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        return render(request,'car/spare-parts/admin_spare_parts.html',{'admin':admin})
+    else:
+        return redirect('adminlogin')
+
+def category_home(request):
+    parts = parts_category.objects.all()
+    return render(request,'car/spare-parts/category_home.html',{'parts':parts})
+   
+def add_category(request):
+    if request.method == 'POST' and request.FILES['image']:
+        name = request.POST.get('name')
+        myfile = request.FILES['image']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        reg = parts_category(name = name,image=myfile)
+        reg.save()
+        text = 'Add Categoty Successfully'
+        return redirect('show_category')
+    else:
+        return render(request,"car/spare-parts/add_category.html")
+
+def show_category(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        show = parts_category.objects.get()
+        return render(request,'car/spare-parts/show_category.html',{'admin':admin,'show':show})
+    else:
+        return redirect('adminlogin')
+
+def show_sub_category(request):
+    if 'admin' in request.session:
+        admin = superuser.objects.get(fname = request.session['admin'])
+        show = parts_subcategory.objects.all()
+        return render(request,'car/spare-parts/show_subcategory.html',{'admin':admin,'show':show})
+    else:
+        return redirect('adminlogin')
+
+def add_sub_category(request):
+    if request.method == 'POST' and request.FILES['image']:
+        name = request.POST.get('name')
+        myfile = request.FILES['image']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+        fitparts = request.POST.get('fitmodel')
+        category = request.POST.get('partscategory')
+        obj = parts_category.objects.get(name=category)
+        reg = parts_subcategory(name = name,image=myfile,description=description,price=price,fit_model=fitparts,Parts_Category_id = obj.id)
+        reg.save()
+        return redirect('show_sub_category')
+    else:
+        if 'admin' in request.session:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            cat = parts_category.objects.all()
+            return render(request,"car/spare-parts/add_sub_category.html",{'admin':admin,'cat':cat})
+        else:
+            return redirect('adminlogin')
+
+def sub_category_view(request):
+    subcat = parts_subcategory.objects.all()
+    return render(request,'car/sub_category.html',{'subcat':subcat})

@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('user/', admin.site.urls),
     path('', views.index),
-    path('home/', views.home),
+    path('home', views.home),
 
     path('aboutus/',views.aboutus),
     path('contactus/', views.contactus),
@@ -119,7 +119,35 @@ urlpatterns = [
     path('adminforgotpass',views.adminforgotpass,name='adminforgotpass'),
     path('admin_check_otp',views.admin_check_otp,name='admin_check_otp'),
     path('adminforgotpasschange',views.adminforgotpasschange,name='adminforgotpasschange'),
+    path('job_service',views.job_service,name='job_service'),
+    path('job_detail',views.job_detail,name='job_detail'),
+    path('add_job',views.add_job,name='add_job'),
+    path('update_job/<int:id>',views.upade_job,name='update_job'),
+    path('delete_job/<int:id>',views.delete_job,name='delete_job'),
+    path('requirement',views.requirement,name='requirement'),
+    path('delete_requirement/<int:id>',views.delete_requirement,name='delete_requirement'),
+    path('leave_detail',views.leave_detail,name='leave_detail'),
+    path('update_leave/<int:id>',views.update_leave,name='update_leave'),
+    path('delete_leave/<int:id>',views.delete_leave,name='delete_leave'),
+    path('admin_feedback',views.admin_feedback,name='admin_feedback'),
+    path('delete_feedback/<int:id>',views.delete_feedback,name='delete_feedback'),
+    path('admin_delete_all_req/<int:id>',views.admin_delete_all_req, name='admin_delete_all_req'),
+    path('admin_contactus',views.admin_contactus,name="admin_contactus"),
+    path('delete_contactus<int:id>',views.delete_contactus,name="delete_contactus"),
+
+
     path('admin_logout',views.admin_logout,name='admin_logout'),
+
+
+    #Admin Spare Parts Sale
+
+    path('admin_spare_parts',views.admin_spare_parts,name='admin_spare_parts'),
+    path('category_home',views.category_home,name='category_home'),
+    path('show_category',views.show_category,name='show_category'),
+    path('add_category',views.add_category,name='add_category'),
+    path('add_sub_category',views.add_sub_category,name='add_sub_category'),
+    path('show_sub_category',views.show_sub_category,name='show_sub_category'),
+    path('subcategory',views.sub_category_view,name='subcategory')
 ]
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,17 +12,18 @@
     <!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
     <!-- css -->
-    <link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/owl-carousel/assets/owl.carousel.min.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/photoswipe/photoswipe.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/photoswipe/default-skin/default-skin.css " %}">
-    <link rel="stylesheet" href="{% static "vendor/select2/css/select2.min.css " %}">
-    <link rel="stylesheet" href="{% static "css/style.css " %}">
-    <link rel="stylesheet" href="{% static "css/style.header-spaceship-variant-one.css " %}" media="(min-width: 1200px)">
-    <link rel="stylesheet" href="{% static "css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+    <link rel="stylesheet" href="{% static " vendor/bootstrap/css/bootstrap.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css " %}"
+        media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <!-- font - fontawesome -->
-    <link rel="stylesheet" href="{% static "vendor/fontawesome/css/all.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css " %}">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
 
     <script>
@@ -35,74 +36,159 @@
         gtag("config", "UA-97489509-8");
         $('.alert').alert()
     </script>
-    <link rel="stylesheet" href="{% static  "style.css" %}">
+    <link rel="stylesheet" href="{% static  " style.css" %}">
+    <style>
+        .searchbar {
+            margin-bottom: auto;
+            margin-top: auto;
+            height: 50px;
+            background-color: #353b48;
+            border-radius: 40px;
+            padding: 10px;
+        }
+
+        .search_input {
+            color: white;
+            border: 0;
+            outline: 0;
+            background: none;
+            width: 0;
+            caret-color: transparent;
+            line-height: 30px;
+            transition: width 0.4s linear;
+        }
+
+        .searchbar:hover>.search_input {
+            padding: 0 10px;
+            width: 200px;
+            caret-color: red;
+            transition: width 0.4s linear;
+        }
+
+        .searchbar:hover>.search_icon {
+            background: white;
+            color: #e74c3c;
+        }
+
+        .search_icon {
+            height: 30px;
+            width: 30px;
+            float: right;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
     {% include "car/admin/adminbase.html" %}
-    <div class="wrapper">
 
-        <!-- ****** table  start ********** -->
-        <div class="row">
-            <div class="col-12 col-m-12 col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 style="color:red; text-align:center">Car Service Pending Request
-                        </h3>
-
-                    </div>
-                    <div class="card-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Customer Name</th>
-                                    <th>Categaory</th>
-                                    <th>Number</th>
-                                    <th>Name</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
-                                    <th>Problem</th>
-                                    <th>Date</th>
-                                    <th>Cost</th>
-                                    <th>Status</th>
-                                    <th>Payment Status</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for w in cus %}
-                                <tr>
-                                    <td>{{w.Customer.fname}} {{w.Customer.lname}}</td>
-                                    <td> {{w.category}}</td>
-                                    <td> {{w.number}}</td>
-                                    <td> {{w.name}}</td>
-                                    <td> {{w.brand}}</td>
-                                    <td> {{w.model}}</td>
-                                    <td> {{w.problem}}</td>
-                                    <td>{{w.date}}</td>
-                                    <td>{{w.cost}}</td>
-                                    <td>{{w.status}}</td>
-                                    <td>{{w.payment_status}}</td>
-                                    <td><a style="color:blue; text-decoration:none;font-size:25px;"
-                                        href="{% url 'update_request' w.id %}">&#9998;</a></td>
-                                            <td><a style="color:red; text-decoration:none;font-size:25px;" 
-                                                href="{% url 'admin_delete_request' w.id %}">&#10008;</a></td>
-                                </tr>
-                                {% endfor %}
-
-                            </tbody>
-                            <div id="pagination"></div>
-                        </table>
-                       
-                    </div>
-                </div>
+    <div class="container h-100" style="margin-top: 10px;">
+        <div class="d-flex justify-content-center h-100" style="float: left;">
+            <div class="searchbar">
+                <input class="search_input" type="text" name="search" id="search" placeholder="Search...">
+                <a href="" class="search_icon"><i class="fas fa-search"></i></a>
             </div>
         </div>
     </div>
+
+
+    <div class="site__body">
+        <div class="block">
+            <div class="col-12 col-m-12 col-sm-12">
+                <div class="row">
+                    <div class="col-12 col-lg-12 mt-12 mt-lg-0">
+                        <div class="dashboard">
+
+                            <div class="dashboard__orders card">
+                                <div class="card-header">
+                                    <center>
+                                        <h5>Car Service Pending Request</h5>
+                                    </center>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-table">
+                                    <div class="table-responsive-sm">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer Name</th>
+                                                    <th>Categaory</th>
+                                                    <th>Number</th>
+                                                    <th>Name</th>
+                                                    <th>Brand</th>
+                                                    <th>Model</th>
+                                                    <th>Problem</th>
+                                                    <th>Date</th>
+                                                    <th>Cost</th>
+                                                    <th>Status</th>
+                                                    <th>Payment Status</th>
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="table">
+                                                {% for w in cus %}
+                                                <tr>
+                                                    <td>{{w.Customer.fname}} {{w.Customer.lname}}</td>
+                                                    <td> {{w.category}}</td>
+                                                    <td> {{w.number}}</td>
+                                                    <td> {{w.name}}</td>
+                                                    <td> {{w.brand}}</td>
+                                                    <td> {{w.model}}</td>
+                                                    <td> {{w.problem}}</td>
+                                                    <td>{{w.date}}</td>
+                                                    <td>{{w.cost}}</td>
+                                                    <td>{{w.status}}</td>
+                                                    <td>{{w.payment_status}}</td>
+                                                    <td><a style="color:blue; text-decoration:none;font-size:25px;"
+                                                            href="{% url 'update_request' w.id %}"><i
+                                                                class="fas fa-pencil-alt" style="color: blue;"></i></a>
+                                                    </td>
+                                                    <td><a style="color:red; text-decoration:none;font-size:25px;"
+                                                            href="{% url 'admin_delete_request' w.id %}"><i
+                                                                class="fas fa-trash-alt"></i></a></td>
+                                                </tr>
+                                                {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="block-space block-space--layout--before-footer"></div>
+    </div>
     {% include "car/footer.html" %}
 </body>
-<!-- Mirrored from red-parts.html.themeforest.scompiler.ru/themes/red-ltr/shop-grid-6-columns-full.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 25 Jan 2021 07:35:20 GMT -->
+
+<script>
+    var $rows = $('#table tr');
+    $('#search').keyup(function () {
+        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+        $rows.show().filter(function () {
+            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            return !~text.indexOf(val);
+        }).hide();
+    });
+</script>
 
 </html>

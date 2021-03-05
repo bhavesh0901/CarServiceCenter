@@ -124,3 +124,20 @@ class superuser(models.Model):
     address = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
     image = models.ImageField(upload_to='images/',null=True,blank=True)
+
+
+
+    #Spare Parts Sale Model
+
+class parts_category(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField()
+
+class parts_subcategory(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField()
+    description = models.CharField(max_length=100)
+    price = models.IntegerField()
+    fit_model = models.CharField(max_length=50)
+    Parts_Category = models.ForeignKey('parts_category',on_delete=models.CASCADE) 
+

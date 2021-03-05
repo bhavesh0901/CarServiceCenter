@@ -1,0 +1,160 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Job Apply — Red Parts</title>
+    <link rel="icon" type="image/png" href="{% static " images/favicon.png " %}">
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static  " vendor/bootstrap/css/bootstrap.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/owl-carousel/assets/owl.carousel.min.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/photoswipe.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/photoswipe/default-skin/default-skin.css " %}">
+    <link rel="stylesheet" href="{% static " vendor/select2/css/select2.min.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.css " %}">
+    <link rel="stylesheet" href="{% static " css/style.header-spaceship-variant-one.css " %}"
+        media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{% static " css/style.mobile-header-variant-one.css " %}" media="(max-width: 1199px)">
+
+    <!-- font - fontawesome -->
+    <link rel="stylesheet" href="{% static " vendor/fontawesome/css/all.min.css " %}">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-8"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "UA-97489509-8");
+        $('.alert').alert()
+    </script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+</head>
+
+<body>
+    {% include "car/admin/adminbase.html" %}
+
+    <!-- site__body -->
+    <div class="site__body">
+        <div class="block-space block-space--layout--after-header"></div>
+        <div class="block">
+            <div class="container container--max--lg">
+                <div class="row">
+                    <div class="col-md-8 d-flex mt-4 mt-md-0" style="margin: auto;">
+                        <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
+                            <div class="card-body card-body--padding--2">
+                                {% if text %}
+                                <div class="alert alert-success">
+                                    {{text}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                </div>
+                                {% endif %}
+                                <h3 class="card-title">Add Job</h3>
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <input name="image" id="image" value="{{desc.image}}" class="form-control" type="file">
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                        </div>
+                                        <select name = "post_name" class="form-control">
+                                            {% for p in pname %}
+                                            <option value="{{p.post}}" >{{p.post}}</option>
+                                            {% endfor %}
+                                        </select>   
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-user-graduate"></i> </span>
+                                        </div>
+                                        <input name="qualification" id="qualification" class="form-control"
+                                            value="{{desc.qualification}}" placeholder="Qualification" type="text" >
+                                    </div>
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-layer-group"></i> </span>
+                                        </div>
+                                        <input name="experience" id="experience" class="form-control"
+                                            placeholder="Experience" type="text" value="{{desc.experience}}">
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-award"></i> </span>
+                                        </div>
+                                        <input name="skills" id="skills" class="form-control" placeholder="Skill"
+                                            type="address" value="{{desc.skill}}">
+                                    </div>
+                                    <!-- form-group end.// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-map-marker-alt"></i> </span>
+                                        </div>
+                                        <input name="job_loc" id="job_loc" class="form-control" placeholder="Job_location"
+                                            type="text" value="{{desc.job_location}}">
+                                    </div>
+                                    <!-- form-group// -->
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fas fa-rupee-sign"></i> </span>
+                                        </div>
+                                        <input name="salary" id="salary" class="form-control"
+                                            placeholder="salary" type="text" value="{{desc.salary}}">
+                                    </div>
+                                    
+                                    
+                                    
+                                    <!-- form-group
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                        </div>
+                                        <input class="form-control" name="cpassword" id="cpassword" placeholder="Repeat password" type="password">
+                                    </div> -->
+                                    <!-- form-group// -->
+                                    <div class="form-group">
+                                        <button type="submit" id="btnSubmit" class="btn btn-primary btn-block"> Apply
+                                            For Job
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-space block-space--layout--before-footer"></div>
+    </div>
+    <!-- site__body / end -->
+    <!-- scripts -->
+    <script src="{% static " vendor/jquery/jquery.min.js " %}"></script>
+    <script src="{% static " vendor/bootstrap/js/bootstrap.bundle.min.js " %}"></script>
+    <script src="{% static " vendor/owl-carousel/owl.carousel.min.js " %}"></script>
+    <script src="{% static " vendor/nouislider/nouislider.min.js " %}"></script>
+    <script src="{% static " vendor/photoswipe/photoswipe.min.js " %}"></script>
+    <script src="{% static " vendor/photoswipe/photoswipe-ui-default.min.js " %}"></script>
+    <script src="{% static " vendor/select2/js/select2.min.js " %}"></script>
+    <script src="{% static " js/number.js " %}"></script>
+    <script src="{% static " js/main.js " %}"></script>
+    {% include "car/admin/footer.html" %}
+</body>
+
+</html>

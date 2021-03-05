@@ -70,8 +70,12 @@
                                     <td> {{a.mobile}}</td>
                                     <td> {{a.gender}}</td>
                                     <td>{{a.address}}</td>
+                                    {% if a.id == 1 %}
+                                    <td></td>
+                                    {% else %}
                                             <td><a style="color:red; text-decoration:none;font-size:25px;" 
-                                                href="">&#10008;</a></td>
+                                                href=""><i class="fas fa-trash-alt"></i></a></td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
 

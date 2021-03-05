@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
-    <head>
-        <title>Car Care Center-Approved Request</title>
-        <link rel="stylesheet" href="{% static  "style.css" %}">
-    </head>
-    {% include "car/customerbase.html" %}
-    <body>
 
-        <!-- main content -->
-	<div class="wrapper">
+<head>
+    <title>Car Care Center-Approved Request</title>
+    <link rel="stylesheet" href="{% static  " style.css" %}">
+</head>
+{% include "car/customerbase.html" %}
 
-        <!-- ****** table  start ********** -->
+<body>
+
+    <!-- main content -->
+
+
+    <div class="site__body">
+        <div class="block">
+            <div class="col-12 col-m-12 col-sm-12">
                 <div class="row">
-                    <div class="col-12 col-m-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 style="color:red; text-align:center" >Approved Request
-                                </h3>
-        
-                            </div>
-                            <div class="card-content">
-                                <table>
-                                    <thead>
-                        <tr>
-                          <th>Vehicle Name</th>
-                          <th>Category</th>
-                          <th>Vehicle Number</th>
-                          <th>Problem Description</th>
-                          <th>Enquiry Date</th>
-                          <th>Status</th>
-        
-                        </tr>
-                                    </thead>
-                                    <tbody>
-                        {% for enq in enquiry %}
-                        <tr>
-                          <td>{{enq.name}}</td>
-                          <td>{{enq.category}}</td>
-                          <td>{{enq.number}}</td>
-                          <td>{{enq.problem}}</td>
-                          <td>{{enq.date}}</td>
-                          <td>{{enq.status}}</td>
-                          
-                          </tr>
-                        {% endfor %}
-        
-                                    </tbody>
-                                </table>
+                    <div class="col-12 col-lg-12 mt-12 mt-lg-0">
+                        <div class="dashboard">
+
+                            <div class="dashboard__orders card">
+                                <div class="card-header">
+                                    <center>
+                                        <h5>Approved Request</h5>
+                                    </center>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-table">
+                                    <div class="table-responsive-sm">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Name</th>
+                                                    <th>Category</th>
+                                                    <th>Vehicle Number</th>
+                                                    <th>Problem Description</th>
+                                                    <th>Enquiry Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                                {% for enq in enquiry %}
+                                                <tr>
+                                                    <td>{{enq.name}}</td>
+                                                    <td>{{enq.category}}</td>
+                                                    <td>{{enq.number}}</td>
+                                                    <td>{{enq.problem}}</td>
+                                                    <td>{{enq.date}}</td>
+                                                    <td>{{enq.status}}</td>
+
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
-                {% include "car/footer.html" %}
-    </body>
+            </div>
+        </div>
+        <div class="block-space block-space--layout--before-footer"></div>
+    </div>
+
+    {% include "car/footer.html" %}
+</body>
+
 </html>

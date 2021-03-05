@@ -13,47 +13,59 @@
 	<div class="wrapper">
 
         <!-- ****** table  start ********** -->
-                <div class="row">
-                    <div class="col-12 col-m-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 style="color:red; text-align:center" >Pending Request & Delete
-                                </h3>
-        
-                            </div>
-                            <div class="card-content">
-                                <table>
-                                    <thead>
-                        <tr>
-                          <th>Vehicle Name</th>
-                          <th>Category</th>
-                          <th>Vehicle Number</th>
-                          <th>Problem Description</th>
-                          <th>Enquiry Date</th>
-                          <th>Status</th>
-                        <th>Delete Enquiry</th>
-                        </tr>
-                                    </thead>
-                                    <tbody>
-                        {% for enq in enquiry %}
-                        <tr>
-                          <td>{{enq.name}}</td>
-                          <td>{{enq.category}}</td>
-                          <td>{{enq.number}}</td>
-                          <td>{{enq.problem}}</td>
-                          <td>{{enq.date}}</td>
-                          <td>{{enq.status}}</td>
-                          <td><a style="color:blue; text-decoration:none;font-size:25px;" href="{% url 'del_customer_request' enq.id %}">&#10008;</a></td>
-                        </tr>
-                        {% endfor %}
-        
-                                    </tbody>
-                                </table>
+                <div class="site__body">
+                    <div class="block">
+                        <div class="col-12 col-m-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-12 col-lg-12 mt-12 mt-lg-0">
+                                    <div class="dashboard">
+            
+                                        <div class="dashboard__orders card">
+                                            <div class="card-header">
+                                                <center>
+                                                    <h5>Pending Request & Delete</h5>
+                                                </center>
+                                            </div>
+                                            <div class="card-divider"></div>
+                                            <div class="card-table">
+                                                <div class="table-responsive-sm">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Vehicle Name</th>
+                                                                <th>Category</th>
+                                                                <th>Vehicle Number</th>
+                                                                <th>Problem Description</th>
+                                                                <th>Enquiry Date</th>
+                                                                <th>Status</th>
+                                                              <th>Delete Enquiry</th>
+                                                              </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for enq in enquiry %}
+                                                            <tr>
+                                                              <td>{{enq.name}}</td>
+                                                              <td>{{enq.category}}</td>
+                                                              <td>{{enq.number}}</td>
+                                                              <td>{{enq.problem}}</td>
+                                                              <td>{{enq.date}}</td>
+                                                              <td>{{enq.status}}</td>
+                                                              <td><a style="color:blue; text-decoration:none;font-size:25px;" href="{% url 'del_customer_request' enq.id %}">&#10008;</a></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="block-space block-space--layout--before-footer"></div>
                 </div>
-        <!-- ****** table start ********** -->
+
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             </div>
             <!-- end main content -->
