@@ -137,7 +137,11 @@
 				<div class="header__topbar-start-bg"></div>
 				<div class="header__topbar-start">
 					<div class="topbar topbar--spaceship-start">
+						{% if admin.id == 1 %}
                         <div class="topbar__item-text d-none d-xxl-flex"><a href= "/show_admin" style="text-decoration: none;color: white;">ADD ADMIN</a></div>
+						{% else %}
+						<div class="topbar__item-text d-none d-xxl-flex"></div>
+						{% endif %}
                         <div class="topbar__item-text d-none d-xxl-flex"><a href="/admin_contactus" style="text-decoration: none;color: white;">Contact Us</a></div>
 						
 					</div>

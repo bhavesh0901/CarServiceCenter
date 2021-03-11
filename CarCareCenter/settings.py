@@ -157,3 +157,4 @@ PAYTM_PAYMENT_GATEWAY_URL = "https://securegw-stage.paytm.in/order/process"
 PAYTM_TRANSACTION_STATUS_URL = "https://securegw-stage.paytm.in/order/status"
 
 # SESSION_EXPIRE_SECONDS = 600
+

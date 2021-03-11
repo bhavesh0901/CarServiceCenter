@@ -141,3 +141,15 @@ class parts_subcategory(models.Model):
     fit_model = models.CharField(max_length=50)
     Parts_Category = models.ForeignKey('parts_category',on_delete=models.CASCADE) 
 
+    def __str__(self):
+        return self.name
+
+class order_cart(models.Model):
+    Parts_Sub_Category = models.ForeignKey('parts_subcategory',on_delete=models.CASCADE)
+    Customer = models.ForeignKey('customer',on_delete=models.CASCADE)
+    quantity = models.IntegerField(null=True,default=1)
+    price = models.IntegerField()
+    total = models.IntegerField()
+    
+
+

@@ -54,6 +54,8 @@ urlpatterns = [
     path('check_otp',views.check_otp,name="check_otp"),
     path('forgotpasschange',views.forgotpasschange,name="forgotpasschange"),
     path('cust_change_pass',views.cust_change_pass,name="cust_change_pass"),
+    path('customerindex',views.customerindex,name='customerindex'),
+    path('sub_category/<int:id>',views.sub_category_view_customer,name='sub_category'),
 
 
     #==================================================#
@@ -147,7 +149,10 @@ urlpatterns = [
     path('add_category',views.add_category,name='add_category'),
     path('add_sub_category',views.add_sub_category,name='add_sub_category'),
     path('show_sub_category',views.show_sub_category,name='show_sub_category'),
-    path('subcategory',views.sub_category_view,name='subcategory')
+    path('subcategory/<int:id>',views.sub_category_view,name='subcategory'),
+    path('add_cart/<int:id>',views.add_cart,name='add_cart'),
+    path('cart_view',views.cart_view,name='cart_view'),
+    path('remove_from_cart_view/<int:id>',views.remove_from_cart_view,name='remove_from_cart_view'),
 ]
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
