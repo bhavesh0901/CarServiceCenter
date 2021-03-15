@@ -140,6 +140,7 @@ class parts_subcategory(models.Model):
     price = models.IntegerField()
     fit_model = models.CharField(max_length=50)
     Parts_Category = models.ForeignKey('parts_category',on_delete=models.CASCADE) 
+    
 
     def __str__(self):
         return self.name
@@ -147,9 +148,22 @@ class parts_subcategory(models.Model):
 class order_cart(models.Model):
     Parts_Sub_Category = models.ForeignKey('parts_subcategory',on_delete=models.CASCADE)
     Customer = models.ForeignKey('customer',on_delete=models.CASCADE)
-    quantity = models.IntegerField(null=True,default=1)
-    price = models.IntegerField()
-    total = models.IntegerField()
-    
+    name  = models.CharField(max_length=50)
+    qty = models.PositiveIntegerField(default=1)
+    price = models.PositiveIntegerField(default=0)
+    total = models.PositiveIntegerField(default = 0)
+
+class customer_order(models.Model):
+    fname = models.CharField(max_length=50)
+    lname = models.CharField(max_length=50)
+    address = models.CharField(max_length=100)
+    oaddress = models.CharField(max_length=100,null=True)
+    city = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    zipcode = models.CharField(max_length=20)
+    email = models.EmailField()
+    mobile = models.CharField(max_length=10)
+    ordernote = models.CharField(max_length=100,null=True)
+    Parts_Sub_Category = models.ForeignKey('parts_subcategory',on_delete=models.CASCADE)
 
 

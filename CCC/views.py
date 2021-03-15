@@ -22,6 +22,7 @@ from io import BytesIO
 from django.template import loader 
 from django.template.loader import get_template
 from django.views.generic import View
+import pickle
 
 from xhtml2pdf import pisa
 
@@ -1554,7 +1555,7 @@ def add_sub_category(request):
             return redirect('adminlogin')
 
 def sub_category_view(request,id):
-
+    subcat = parts_subcategory.objects.all().filter(Parts_Category_id=id)
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         counter=product_ids.split('|')
@@ -1571,6 +1572,7 @@ def sub_category_view(request,id):
         if product_ids != "":
             product_id_in_cart=product_ids.split('|')
             products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart,Parts_Category_id=id)
+          
 
             #for total price shown in cart
 
@@ -1578,7 +1580,7 @@ def sub_category_view(request,id):
             for p in products:
                 total=total+p.price
 
-    return render(request,'car/sub_category.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart}) 
+    return render(request,'car/sub_category.html',{'products':subcat}) 
 
 def sub_category_view_customer(request,id):
     if 'user' in request.session:
@@ -1586,9 +1588,13 @@ def sub_category_view_customer(request,id):
         subcat = parts_subcategory.objects.all().filter(Parts_Category_id=id)
         return render(request,'car/customer_subcategory.html',{'subcat':subcat,'user':cust})
 
+
+
 def add_cart(request,id):
     products=parts_subcategory.objects.all().filter(Parts_Category_id=id)
-    #for cart counter, fetching products ids added by customer from cookies
+    # for cart counter, fetching products ids added by customer from cookies
+   
+
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         counter=product_ids.split('|')
@@ -1608,11 +1614,22 @@ def add_cart(request,id):
         response.set_cookie('product_ids', product_ids)
     else:
         response.set_cookie('product_ids', id)
-
+        
+       
     product=parts_subcategory.objects.get(id=id)
     messages.info(request, product.name + ' added to cart successfully!')
 
     return response
+
+    value=""
+    for i in range(len(product_id_in_cart)):
+        if i==0:
+            value=value+product_id_in_cart[0]
+            print(value)
+        else:
+            value=value+"|"+product_id_in_cart[i]
+    response = render(request, 'car/sub_category.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+    return response 
 
 
         
@@ -1677,5 +1694,32 @@ def remove_from_cart_view(request,id):
             response.delete_cookie('product_ids')
         response.set_cookie('product_ids',value)
         return response 
-    else:
+    else :
         return redirect('cart_view')
+
+def checkout(request,id):
+    if request.method == 'POST':
+        if 'user' in request.session:
+            cust = customer.objects.get(fname = request.session['user'])
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            address = request.POST.get('address')
+            oaddress = request.POST.get('lname')
+            city = request.POST.get('lname')
+            state = request.POST.get('lname')
+            zipcode = request.POST.get('lname')
+            email = request.POST.get('lname')
+            mobile = request.POST.get('lname')
+            ordernote = request.POST.get('lname')
+            order = customer_order(fname=fname,lname=lname,address=address,oaddress=oaddress,city=city,state=state,zipcode=zipcode,email=email,mobile=mobile,ordernote=ordernote)
+            order.save()
+            return render(request,'car/checkout.html',{'user':cust})
+        else:
+            return redirect('customerlogin')
+    else:
+        if 'user' in request.session:
+            cust = customer.objects.get(fname = request.session['user'])
+            return render(request,'car/checkout.html',{'user':cust})
+        else:
+            return redirect('customerlogin')
+        

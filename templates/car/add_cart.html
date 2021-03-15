@@ -215,14 +215,16 @@
                                             data-title="Quantity">
                                             <div 
                                                 class="cart-table__quantity input-number pass-quantity"><input
-                                                name="QTY" onKeyUp="multiply(this)" class="form-control input-number__input" type="number" min="1"
+                                                name="QTY"  class="form-control input-number__input" type="number" min="1"
                                                     value="1">
-                                                <div class="input-number__add"></div>
+                                             
+                                                <div class="input-number__add"  ></div>
+                                                
                                                 <div class="input-number__sub"></div>
                                             </div>
                                         </td>
                                         <td class="cart-table__column cart-table__column--total" data-title="Total">
-                                            {{p.price}}</td>
+                                            {{total}}</td>
                                         <td class="cart-table__column cart-table__column--remove"><button type="button"
                                                 class="cart-table__remove btn btn-sm btn-icon btn-muted"><a
                                                     href="/remove_from_cart_view/{{p.id}}"> <svg width="12" height="12">
@@ -243,6 +245,7 @@
                             <div class="card">
                                 <div class="card-body card-body--padding--2">
                                     <h3 class="card-title">Cart Totals</h3>
+                                   
                                     <table class="cart__totals-table">
                                         <thead>
                                             <tr>
@@ -267,7 +270,10 @@
                                                 <td name="TOTAL">₹ {{total}}</td>
                                             </tr>
                                         </tfoot>
-                                    </table><a class="btn btn-primary btn-xl btn-block" href="#">Proceed to checkout</a>
+                                        
+                                    </table>
+                                  
+                                    <a class="btn btn-primary btn-xl btn-block" href="/checkout/{{products.id}}">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -275,7 +281,7 @@
                 </div>
             </div>
             <div class="block-space block-space--layout--before-footer"></div>
-        </div> -->
+        </div> 
 
 
         <!-- site__footer -->
