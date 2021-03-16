@@ -201,50 +201,43 @@
 							<div class="card mb-0">
 								<div class="card-body card-body--padding--2">
 									<h3 class="card-title">Your Order</h3>
-								{% for p in products %}
+								
 									<table class="checkout__totals">
+
+										{% for p in products %}
+										<div>
 										<thead class="checkout__totals-header">
 											<tr>
 												<th>{{p.name}}</th>
-												<th>{{total}}</th>
+												<th>₹ {{p.price}}</th>
 											</tr>
 										</thead>
 										<tbody class="checkout__totals-products">
 											<tr>
 												<td>{{p.description}}</td>
-												<td>{{total}}</td>
+												<td></td>
 											</tr>
-											<tr>
-												<td>Brandix Brake Kit BDX-750Z370-S × 1</td>
-												<td>$849.00</td>
-											</tr>
-											<tr>
-												<td>Twin Exhaust Pipe From Brandix Z54 × 3</td>
-												<td>{{total}}</td>
-											</tr>
+											
+											
 										</tbody>
+										</div>
+										{% endfor %}
 										<tbody class="checkout__totals-subtotals">
 											<tr>
 												<th>Subtotal</th>
-												<td>$5877.00</td>
+												<td>{{total}}</td>
 											</tr>
-											<tr>
-												<th>Store Credit</th>
-												<td>$-20.00</td>
-											</tr>
-											<tr>
-												<th>Shipping</th>
-												<td>$25.00</td>
-											</tr>
+											
+											
 										</tbody>
 										<tfoot class="checkout__totals-footer">
 											<tr>
 												<th>Total</th>
-												<td>$5882.00</td>
+												<td>{{total}}</td>
 											</tr>
 										</tfoot>
 									</table>
-									{% endfor %}
+							
 									<div class="checkout__payment-methods payment-methods">
 										<ul class="payment-methods__list">
 											<li class="payment-methods__item payment-methods__item--active"><label

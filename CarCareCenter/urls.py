@@ -153,8 +153,12 @@ urlpatterns = [
     path('add_cart/<int:id>',views.add_cart,name='add_cart'),
     path('cart_view',views.cart_view,name='cart_view'),
     path('remove_from_cart_view/<int:id>',views.remove_from_cart_view,name='remove_from_cart_view'),
-    path('checkout/<int:id>',views.checkout,name='checkout'),
+    path('cust_add_cart/<int:id>',views.cust_add_cart,name='cust_add_cart'),
+    path('cust_view_cart',views.cust_view_cart,name='cust_view_cart'),
+    path('cust_remove_from_cart_view/<int:id>',views.cust_remove_from_cart_view,name='cust_remove_from_cart_view'),
+    path('checkout',views.checkout,name='checkout'),
 ]
+
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
    

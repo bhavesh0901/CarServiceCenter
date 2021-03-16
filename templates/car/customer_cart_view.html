@@ -73,7 +73,7 @@
 </head>
 
 <body>
-    {% include 'car/base.html' %}
+    {% include 'car/customerbase.html' %}
     <!-- site -->
     <div class="site">
         <!-- site__mobile-header -->
@@ -224,10 +224,10 @@
                                             </div>
                                         </td>
                                         <td class="cart-table__column cart-table__column--total" data-title="Total">
-                                            {{total}}</td>
+                                            {{p.price}}</td>
                                         <td class="cart-table__column cart-table__column--remove"><button type="button"
                                                 class="cart-table__remove btn btn-sm btn-icon btn-muted"><a
-                                                    href="/remove_from_cart_view/{{p.id}}"> <svg width="12" height="12">
+                                                    href="/cust_remove_from_cart_view/{{p.id}}"> <svg width="12" height="12">
                                                         <path d="M10.8,10.8L10.8,10.8c-0.4,0.4-1,0.4-1.4,0L6,7.4l-3.4,3.4c-0.4,0.4-1,0.4-1.4,0l0,0c-0.4-0.4-0.4-1,0-1.4L4.6,6L1.2,2.6
 	c-0.4-0.4-0.4-1,0-1.4l0,0c0.4-0.4,1-0.4,1.4,0L6,4.6l3.4-3.4c0.4-0.4,1-0.4,1.4,0l0,0c0.4,0.4,0.4,1,0,1.4L7.4,6l3.4,3.4
 	C11.2,9.8,11.2,10.4,10.8,10.8z" />
@@ -1137,80 +1137,7 @@
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 <!-- Mirrored from red-parts.html.themeforest.scompiler.ru/themes/red-ltr/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 25 Jan 2021 07:34:52 GMT -->
-<script>
-    $(document).ready(function () {
 
-        /* Set rates */
-        var taxRate = 0.05;
-        var fadeTime = 300;
-
-        /* Assign actions */
-        $('.pass-quantity input').change(function () {
-            updateQuantity(this);
-        });
-
-        $('.remove-item button').click(function () {
-            removeItem(this);
-        });
-
-
-        /* Recalculate cart */
-        function recalculateCart() {
-            var subtotal = 0;
-
-            /* Sum up row totals */
-            $('.item').each(function () {
-                subtotal += parseFloat($(this).children('.product-line-price').text());
-            });
-
-            /* Calculate totals */
-            var tax = subtotal * taxRate;
-            var total = subtotal + tax;
-
-            /* Update totals display */
-            $('.totals-value').fadeOut(fadeTime, function () {
-                $('#cart-subtotal').html(subtotal.toFixed(2));
-                $('#cart-tax').html(tax.toFixed(2));
-                $('.cart-total').html(total.toFixed(2));
-                if (total == 0) {
-                    $('.checkout').fadeOut(fadeTime);
-                } else {
-                    $('.checkout').fadeIn(fadeTime);
-                }
-                $('.totals-value').fadeIn(fadeTime);
-            });
-        }
-
-
-        /* Update quantity */
-        function updateQuantity(quantityInput) {
-            /* Calculate line price */
-            var productRow = $(quantityInput).parent().parent();
-            var price = parseFloat(productRow.children('.product-price').text());
-            var quantity = $(quantityInput).val();
-            var linePrice = price * quantity;
-
-            /* Update line price display and recalc cart totals */
-            productRow.children('.product-line-price').each(function () {
-                $(this).fadeOut(fadeTime, function () {
-                    $(this).text(linePrice.toFixed(2));
-                    recalculateCart();
-                    $(this).fadeIn(fadeTime);
-                });
-            });
-        }
-
-        /* Remove item from cart */
-        function removeItem(removeButton) {
-            /* Remove row from DOM and recalc cart total */
-            var productRow = $(removeButton).parent().parent();
-            productRow.slideUp(fadeTime, function () {
-                productRow.remove();
-                recalculateCart();
-            });
-        }
-
-    });
-</script>
+   
 
 </html>

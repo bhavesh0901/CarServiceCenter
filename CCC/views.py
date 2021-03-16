@@ -263,6 +263,7 @@ def customerlogin(request):
     if request.method == 'POST':
         try:
             email = request.POST.get('email')
+   
             password = request.POST.get('password')
             user =  customer.objects.get(email=email,password=password)
             if user:   
@@ -1583,12 +1584,137 @@ def sub_category_view(request,id):
     return render(request,'car/sub_category.html',{'products':subcat}) 
 
 def sub_category_view_customer(request,id):
+    subcat = parts_subcategory.objects.all().filter(Parts_Category_id=id)
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # fetching product details from db whose id is present in cookie
+    products=None
+    total=0
+    quantity =1
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids != "":
+            product_id_in_cart=product_ids.split('|')
+            products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart,Parts_Category_id=id)
+          
+
+            #for total price shown in cart
+
+            
+            for p in products:
+                total=total+p.price
+
     if 'user' in request.session:
         cust = customer.objects.get(fname = request.session['user'])
         subcat = parts_subcategory.objects.all().filter(Parts_Category_id=id)
-        return render(request,'car/customer_subcategory.html',{'subcat':subcat,'user':cust})
+        return render(request,'car/customer_subcategory.html',{'products':subcat,'user':cust,'total':total,'product_count_in_cart':product_count_in_cart})
 
+def cust_add_cart(request,id):
+    products=parts_subcategory.objects.all().filter(Parts_Category_id=id)
+    # for cart counter, fetching products ids added by customer from cookies 
 
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=1
+
+    response = render(request, 'car/customer_subcategory.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+
+    #adding product id to cookies
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids=="":
+            product_ids=str(id)
+        else:
+            product_ids=product_ids+"|"+str(id)
+        response.set_cookie('product_ids', product_ids)
+    else:
+        response.set_cookie('product_ids', id)
+        
+       
+    product=parts_subcategory.objects.get(id=id)
+    messages.info(request, product.name + ' added to cart successfully!')
+
+    return response
+
+    value=""
+    for i in range(len(product_id_in_cart)):
+        if i==0:
+            value=value+product_id_in_cart[0]
+            print(value)
+        else:
+            value=value+"|"+product_id_in_cart[i]
+    response = render(request, 'car/customer_subcategory.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+    return response     
+
+def cust_view_cart(request):
+    #for cart counter
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # fetching product details from db whose id is present in cookie
+    products=None
+    total=0
+    quantity =1
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids != "":
+            product_id_in_cart=product_ids.split('|')
+            products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+
+            #for total price shown in cart
+            
+            for p in products:
+                total=total+p.price
+
+    return render(request,'car/customer_cart_view.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart,'quantity':quantity})
+
+def cust_remove_from_cart_view(request,id):
+    #for counter in cart
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # removing product id from cookie
+    total=0
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        product_id_in_cart=product_ids.split('|')
+        product_id_in_cart=list(set(product_id_in_cart))
+        product_id_in_cart.remove(str(id))
+        products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+        #for total price shown in cart after removing product
+        for p in products:
+            total=total+p.price
+
+        #  for update coookie value after removing product id in cart
+        value=""
+        for i in range(len(product_id_in_cart)):
+            if i==0:
+                value=value+product_id_in_cart[0]
+            else:
+                value=value+"|"+product_id_in_cart[i]
+        response = render(request, 'car/customer_cart_view.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+        if value=="":
+            response.delete_cookie('product_ids')
+        response.set_cookie('product_ids',value)
+        return response 
+    else :
+        return redirect('cart_view')
 
 def add_cart(request,id):
     products=parts_subcategory.objects.all().filter(Parts_Category_id=id)
@@ -1629,10 +1755,7 @@ def add_cart(request,id):
         else:
             value=value+"|"+product_id_in_cart[i]
     response = render(request, 'car/sub_category.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
-    return response 
-
-
-        
+    return response     
     
 
 def cart_view(request):
@@ -1697,7 +1820,28 @@ def remove_from_cart_view(request,id):
     else :
         return redirect('cart_view')
 
-def checkout(request,id):
+def checkout(request):
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # fetching product details from db whose id is present in cookie
+    products=None
+    total=0
+    quantity =1
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids != "":
+            product_id_in_cart=product_ids.split('|')
+            products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+
+            #for total price shown in cart
+            
+            for p in products:
+                total=total+p.price
     if request.method == 'POST':
         if 'user' in request.session:
             cust = customer.objects.get(fname = request.session['user'])
@@ -1713,13 +1857,86 @@ def checkout(request,id):
             ordernote = request.POST.get('lname')
             order = customer_order(fname=fname,lname=lname,address=address,oaddress=oaddress,city=city,state=state,zipcode=zipcode,email=email,mobile=mobile,ordernote=ordernote)
             order.save()
-            return render(request,'car/checkout.html',{'user':cust})
+            return render(request,'car/checkout.html',{'user':cust,'products':products})
         else:
             return redirect('customerlogin')
     else:
         if 'user' in request.session:
             cust = customer.objects.get(fname = request.session['user'])
-            return render(request,'car/checkout.html',{'user':cust})
+            return render(request,'car/checkout.html',{'user':cust,'products':products,'total':total})
         else:
             return redirect('customerlogin')
-        
+
+def placeorder(request,id):
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # fetching product details from db whose id is present in cookie
+    products=None
+    total=0
+    quantity =1
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids != "":
+            product_id_in_cart=product_ids.split('|')
+            products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+
+            #for total price shown in cart
+            
+            for p in products:
+                total=total+p.price
+    if 'user' in request.session:
+        cust = customer.objects.get(fname = request.session['user'])
+        order_id = Checksum.__id_generator__()
+        obj = total
+        cust_id = str(randint(0000,9999))
+        # bill_amount = "100"
+        # print(type(bill_amount))
+        data_dict = {
+            'MID': settings.PAYTM_MERCHANT_ID,
+            'INDUSTRY_TYPE_ID': settings.PAYTM_INDUSTRY_TYPE_ID,
+            'WEBSITE': settings.PAYTM_WEBSITE,
+            'CHANNEL_ID': settings.PAYTM_CHANNEL_ID,
+            'CALLBACK_URL': settings.PAYTM_CALLBACK_URL,
+            'MOBILE_NO': customer.objects.get(id = cust.id).mobile,
+            'EMAIL':  customer.objects.get(id = cust.id).email,
+            'CUST_ID': cust_id,
+            'ORDER_ID':order_id,
+            'TXN_AMOUNT':obj,
+        } # This data should ideally come from database
+        print(settings.PAYTM_MERCHANT_KEY)
+        print(settings.PAYTM_MERCHANT_ID)
+        data_dict['CHECKSUMHASH'] = Checksum.generate_checksum(data_dict, "mA&OnVHKf%aur&J8")
+        print(data_dict)
+        paytm(Customer_id= cust.id,Cus_Request_id = id,ORDER_ID=order_id).save()
+        context = {
+            'payment_url': settings.PAYTM_PAYMENT_GATEWAY_URL,
+            'comany_name': settings.PAYTM_COMPANY_NAME,
+            'data_dict': data_dict
+        }
+    return render(request, 'car/payment.html', context)
+
+
+@csrf_exempt
+def response(request):
+    resp = VerifyPaytmResponse(request)
+    if resp['verified']:
+        ORDER_ID=resp['paytm']['ORDERID']
+        TXN_AMOUNT=resp['paytm']['TXNAMOUNT']
+        BANKTXNID=resp['paytm']['BANKTXNID']
+        BANKNAME=resp['paytm']['BANKNAME']
+        TXNDATE=resp['paytm']['TXNDATE']
+        STATUS=resp['paytm']['STATUS']
+        paytm.objects.filter(ORDER_ID =ORDER_ID).update(TXN_AMOUNT=TXN_AMOUNT,BANKTXNID=BANKTXNID,BANKNAME=BANKNAME,STATUS=STATUS)
+        obj = paytm.objects.filter(ORDER_ID=ORDER_ID)
+        id = obj[0].Cus_Request.id
+        obj1 = cus_request.objects.filter(id=id).update(payment_status = True)    
+        # save success details to db; details in resp['paytm']
+        return redirect('invoice')
+    else:
+        # check what happened; details in resp['paytm']
+         return redirect('invoice')
