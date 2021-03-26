@@ -19,6 +19,7 @@ class customer(models.Model):
 
     def __str__(self):
         return self.fname   
+    
 
 
 class mechanic(models.Model):
@@ -164,6 +165,33 @@ class customer_order(models.Model):
     email = models.EmailField()
     mobile = models.CharField(max_length=10)
     ordernote = models.CharField(max_length=100,null=True)
-    Parts_Sub_Category = models.ForeignKey('parts_subcategory',on_delete=models.CASCADE)
+    parts = models.CharField(max_length=500)
+    orderid = models.CharField(max_length=50)
+    date = models.DateField(auto_now=True)
+    Customer = models.ForeignKey('customer',on_delete=models.CASCADE)
+    Parts_Sub_Category = models.ForeignKey('parts_subcategory',on_delete=models.CASCADE,null=True)
+    payment_status = models.BooleanField(default=False)
+    STATUS =(
+        ('Pending','Pending'),
+        ('Order Confirmed','Order Confirmed'),
+        ('Out for Delivery','Out for Delivery'),
+        ('Delivered','Delivered'),
+    )
+    status=models.CharField(max_length=50,null=True,choices=STATUS,default='Pending')
 
+    # def __str__(self):
+    #     if self.Parts_Sub_Category:
+    #         return '%s (%s)' %(self.id, self.Parts_Sub_Category.name)
+    #     else:
+    #         return '%s (%s)' %(self.id,self.fname)
 
+class orderpay(models.Model):
+    ORDER_ID = models.CharField(max_length=50)
+    TXN_AMOUNT = models.CharField(max_length=30)
+    BANKTXNID = models.CharField(max_length=50)
+    Customer = models.ForeignKey('customer',on_delete=models.CASCADE)
+    Custmer_Order = models.ForeignKey('customer_order',on_delete=models.CASCADE)
+    BANKNAME = models.CharField(max_length=50)
+    TXNDATE = models.DateField(auto_now=True)
+    stat=(('TXN_SUCCESS','TXN_SUCCESS'),('TXN_FAIL','TXN_FAIL'))
+    STATUS = models.CharField(max_length=30,choices=stat,default="TXN_FAIL")

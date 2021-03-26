@@ -142,7 +142,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jigarramani40@gmail.com'
-EMAIL_HOST_PASSWORD = 'jigar1901'
+EMAIL_HOST_PASSWORD = 'jigar2901'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
@@ -158,3 +158,12 @@ PAYTM_TRANSACTION_STATUS_URL = "https://securegw-stage.paytm.in/order/status"
 
 # SESSION_EXPIRE_SECONDS = 600
 
+PAYTM_COMPANY_NAME = "Company Name"   # For representation purposes 
+PAYTM_INDUSTRY_TYPE_ID = "Retail"     # For staging environment
+PAYTM_CHANNEL_ID = "WEB"
+PAYTM_MERCHANT_KEY = "mA&OnVHKf%aur&J8"
+PAYTM_MERCHANT_ID = "cTSIBy37736701153348"
+PAYTM_CALLBACK_URL = "http://localhost:8000/res" # Hardcode
+PAYTM_WEBSITE = "WEBSTAGING"
+PAYTM_PAYMENT_GATEWAY_URL = "https://securegw-stage.paytm.in/order/process"
+PAYTM_TRANSACTION_STATUS_URL = "https://securegw-stage.paytm.in/order/status"

@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from .models import *
 from django.db.models import Sum
-from django.http  import HttpResponse
+from django.http  import HttpResponse,response
 import math
 import random
 import smtplib
@@ -12,8 +12,9 @@ import csv
 from django.http import HttpResponse
 from random import *
 import string
-from CCC import Checksum
+from CCC import Checksum,checksum_order
 from django.contrib import messages
+from django.core import serializers
 
 from CCC.utils import VerifyPaytmResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -263,7 +264,6 @@ def customerlogin(request):
     if request.method == 'POST':
         try:
             email = request.POST.get('email')
-   
             password = request.POST.get('password')
             user =  customer.objects.get(email=email,password=password)
             if user:   
@@ -1015,7 +1015,7 @@ def admin_edit_profile(request):
         
     else:
         if 'admin' in request.session:
-            admin = customer.objects.get(fname = request.session['admin'])
+            admin = superuser.objects.get(fname = request.session['admin'])
             return render(request,'car/admin/admin_edit_profile.html',{'admin':admin})
         else:
             return redirect('adminlogin')
@@ -1524,6 +1524,63 @@ def show_category(request):
     else:
         return redirect('adminlogin')
 
+def update_category(request,id):
+    if 'admin' in request.session:
+        if request.method == 'POST':
+            name = request.POST.get('name')
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            parts_category.objects.filter(id=id).update(name = name,image=myfile)
+            return redirect('show_category')
+        else:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            cat = parts_category.objects.get(id=id)
+            return render(request, 'car/spare-parts/add_category.html',{'cat':cat})
+    else:
+        return redirect('adminlogin')
+
+def del_category(request, id):
+    if 'admin' in request.session:
+        cat = parts_category.objects.get(id=id)
+        cat.delete()
+        return redirect('show_category')
+    else:
+        return redirect('adminlogin')
+
+def update_sub_category(request, id):
+    if 'admin' in request.session:
+        if request.method == 'POST':
+            name = request.POST.get('name')
+            myfile = request.FILES['image']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            description = request.POST.get('description')
+            price = request.POST.get('price')
+            fitparts = request.POST.get('fitmodel')
+            category = request.POST.get('partscategory')
+            obj = parts_category.objects.get(name=category)
+            parts_subcategory.objects.filter(id=id).update(name = name,image=myfile,description=description,price=price,fit_model=fitparts,Parts_Category_id = obj.id)
+            return redirect('show_sub_category')
+        else:
+            admin = superuser.objects.get(fname = request.session['admin'])
+            subcat = parts_subcategory.objects.get(id=id)
+            cat = parts_category.objects.all()
+            return render(request,"car/spare-parts/add_sub_category.html",{'admin':admin,'subcat':subcat,'cat':cat})   
+    else:
+        return redirect('adminlogin')
+
+def delete_subcategory(request, id):
+    if 'admin' in request.session:
+        subcat = parts_subcategory.objects.get(id=id)
+        subcat.delete()
+        return redirect('show_sub_category')
+    else:
+        return redirect('adminlogin')
+
+
 def show_sub_category(request):
     if 'admin' in request.session:
         admin = superuser.objects.get(fname = request.session['admin'])
@@ -1656,29 +1713,31 @@ def cust_add_cart(request,id):
 
 def cust_view_cart(request):
     #for cart counter
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        counter=product_ids.split('|')
-        product_count_in_cart=len(set(counter))
-    else:
-        product_count_in_cart=0
+    if 'user' in request.session:
+        cust = customer.objects.get(fname = request.session['user'])
+        if 'product_ids' in request.COOKIES:
+            product_ids = request.COOKIES['product_ids']
+            counter=product_ids.split('|')
+            product_count_in_cart=len(set(counter))
+        else:
+            product_count_in_cart=0
 
     # fetching product details from db whose id is present in cookie
-    products=None
-    total=0
-    quantity =1
-    if 'product_ids' in request.COOKIES:
-        product_ids = request.COOKIES['product_ids']
-        if product_ids != "":
-            product_id_in_cart=product_ids.split('|')
-            products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+        products=None
+        total=0
+        quantity =1
+        if 'product_ids' in request.COOKIES:
+            product_ids = request.COOKIES['product_ids']
+            if product_ids != "":
+                product_id_in_cart=product_ids.split('|')
+                products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
 
             #for total price shown in cart
             
-            for p in products:
-                total=total+p.price
+                for p in products:
+                    total=total+p.price
 
-    return render(request,'car/customer_cart_view.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart,'quantity':quantity})
+        return render(request,'car/customer_cart_view.html',{'user':cust, 'products':products,'total':total,'product_count_in_cart':product_count_in_cart,'quantity':quantity})
 
 def cust_remove_from_cart_view(request,id):
     #for counter in cart
@@ -1820,6 +1879,7 @@ def remove_from_cart_view(request,id):
     else :
         return redirect('cart_view')
 
+from django.urls import reverse
 def checkout(request):
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
@@ -1837,9 +1897,8 @@ def checkout(request):
         if product_ids != "":
             product_id_in_cart=product_ids.split('|')
             products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
-
-            #for total price shown in cart
-            
+            print(products)
+            #for total price shown in cart            
             for p in products:
                 total=total+p.price
     if request.method == 'POST':
@@ -1848,23 +1907,45 @@ def checkout(request):
             fname = request.POST.get('fname')
             lname = request.POST.get('lname')
             address = request.POST.get('address')
-            oaddress = request.POST.get('lname')
-            city = request.POST.get('lname')
-            state = request.POST.get('lname')
-            zipcode = request.POST.get('lname')
-            email = request.POST.get('lname')
-            mobile = request.POST.get('lname')
-            ordernote = request.POST.get('lname')
-            order = customer_order(fname=fname,lname=lname,address=address,oaddress=oaddress,city=city,state=state,zipcode=zipcode,email=email,mobile=mobile,ordernote=ordernote)
-            order.save()
-            return render(request,'car/checkout.html',{'user':cust,'products':products})
+            oaddress = request.POST.get('oaddress')
+            city = request.POST.get('city')
+            state = request.POST.get('state')
+            zipcode = request.POST.get('zipcode')
+            email = request.POST.get('email')
+            mobile = request.POST.get('mobile')
+            ordernote = request.POST.get('ordernote')
+            data = serializers.serialize('json',products)
+            orderid = randint(000000,999999)
+            print(data)
+            
+            ord = customer_order(fname=fname,lname=lname,address=address,oaddress=oaddress,city=city,state=state,zipcode=zipcode,email=email,mobile=mobile,ordernote=ordernote, Customer_id=cust.id,parts=data, orderid=orderid)
+            print(ord)
+            ord.save()
+            print('#####')
+            total=0
+            O = customer_order.objects.all().filter(Customer_id = cust.id) #ama aa Nakhvanu chhe Parts_Sub_Category_id = products.id
+            response =  redirect(reverse('placeorder',kwargs={'id':O[0].id}))
+            response.set_cookie('fname',fname)
+            response.set_cookie('lname',lname)
+            response.set_cookie('address',address)
+            response.set_cookie('email',email)
+            response.set_cookie('mobile',mobile)
+            response.set_cookie('city',city)
+            response.set_cookie('state',state)
+            response.set_cookie('zipcode',zipcode)
+            response.set_cookie('ordernote',ordernote)
+            response.set_cookie('orderid',orderid)
+            return response
         else:
             return redirect('customerlogin')
     else:
         if 'user' in request.session:
-            cust = customer.objects.get(fname = request.session['user'])
-            return render(request,'car/checkout.html',{'user':cust,'products':products,'total':total})
+            print('#####')
+            cust = customer.objects.get(fname = request.session['user'])  
+            O = customer_order.objects.all().filter(Customer_id = cust.id)
+            return render(request,'car/checkout.html',{'user':cust,'products':products,'product_count_in_cart':product_count_in_cart ,'total':total,'O':O,})
         else:
+
             return redirect('customerlogin')
 
 def placeorder(request,id):
@@ -1876,23 +1957,24 @@ def placeorder(request,id):
         product_count_in_cart=0
 
     # fetching product details from db whose id is present in cookie
-    products=None
+
     total=0
-    quantity =1
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         if product_ids != "":
             product_id_in_cart=product_ids.split('|')
             products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
-
-            #for total price shown in cart
-            
+            print(products)
+            #for total price shown in cart            
             for p in products:
                 total=total+p.price
+    print('############@@@@@@@@@@############')
     if 'user' in request.session:
+        print('####')
         cust = customer.objects.get(fname = request.session['user'])
+        print('###')
         order_id = Checksum.__id_generator__()
-        obj = total
+        obj = str(total)
         cust_id = str(randint(0000,9999))
         # bill_amount = "100"
         # print(type(bill_amount))
@@ -1907,22 +1989,24 @@ def placeorder(request,id):
             'CUST_ID': cust_id,
             'ORDER_ID':order_id,
             'TXN_AMOUNT':obj,
+
+        
         } # This data should ideally come from database
         print(settings.PAYTM_MERCHANT_KEY)
         print(settings.PAYTM_MERCHANT_ID)
-        data_dict['CHECKSUMHASH'] = Checksum.generate_checksum(data_dict, "mA&OnVHKf%aur&J8")
+        data_dict['CHECKSUMHASH'] = checksum_order.generate_checksum(data_dict, "mA&OnVHKf%aur&J8")
         print(data_dict)
-        paytm(Customer_id= cust.id,Cus_Request_id = id,ORDER_ID=order_id).save()
+        orderpay(Customer_id= cust.id,Custmer_Order_id = id ,ORDER_ID=order_id).save()
         context = {
-            'payment_url': settings.PAYTM_PAYMENT_GATEWAY_URL,
+            'placeorder_url': settings.PAYTM_PAYMENT_GATEWAY_URL,
             'comany_name': settings.PAYTM_COMPANY_NAME,
             'data_dict': data_dict
         }
-    return render(request, 'car/payment.html', context)
+    return render(request, 'car/placeorder.html', context)
 
 
 @csrf_exempt
-def response(request):
+def res(request):
     resp = VerifyPaytmResponse(request)
     if resp['verified']:
         ORDER_ID=resp['paytm']['ORDERID']
@@ -1931,12 +2015,124 @@ def response(request):
         BANKNAME=resp['paytm']['BANKNAME']
         TXNDATE=resp['paytm']['TXNDATE']
         STATUS=resp['paytm']['STATUS']
-        paytm.objects.filter(ORDER_ID =ORDER_ID).update(TXN_AMOUNT=TXN_AMOUNT,BANKTXNID=BANKTXNID,BANKNAME=BANKNAME,STATUS=STATUS)
-        obj = paytm.objects.filter(ORDER_ID=ORDER_ID)
-        id = obj[0].Cus_Request.id
-        obj1 = cus_request.objects.filter(id=id).update(payment_status = True)    
+        orderpay.objects.filter(ORDER_ID =ORDER_ID).update(TXN_AMOUNT=TXN_AMOUNT,BANKTXNID=BANKTXNID,BANKNAME=BANKNAME,STATUS=STATUS)
+        obj = orderpay.objects.filter(ORDER_ID=ORDER_ID)
+        id = obj[0].Custmer_Order.id
+        ob1 = customer_order.objects.filter(id=id).update(payment_status = True)
         # save success details to db; details in resp['paytm']
-        return redirect('invoice')
+        response =  redirect('ordersuccess')
+        return response
+
+
+from django.db.models import Q
+def ordersuccess(request):
+    if 'user' in request.session:
+        Customer = customer.objects.get(fname = request.session['user'])
+        products=None
+        fname=None
+        lname=None
+        email=None
+        mobile=None
+        address=None
+        city=None
+        state=None
+        zipcode=None
+        orderid=None
+        ordernote=None
+        if 'product_ids' in request.COOKIES:
+            product_ids = request.COOKIES['product_ids']
+            if product_ids != "":
+                product_id_in_cart=product_ids.split('|')
+                products=parts_subcategory.objects.all().filter(id__in = product_id_in_cart)
+                    # Here we get products list that will be ordered by one customer at a time
+
+            # these things can be change so accessing at the time of order...
+        if 'fname' in request.COOKIES:
+            fname=request.COOKIES['fname']
+        if 'lname' in request.COOKIES:
+            lname=request.COOKIES['lname']
+        if 'email' in request.COOKIES:
+            email=request.COOKIES['email']
+        if 'mobile' in  request.COOKIES:
+            mobile=request.COOKIES['mobile']
+        if 'address' in request.COOKIES:
+            address=request.COOKIES['address']
+        if 'city' in request.COOKIES:
+            city=request.COOKIES['city']
+        if 'state' in request.COOKIES:
+            state=request.COOKIES['state']
+        if 'zipcode' in request.COOKIES:
+            zipcode=request.COOKIES['zipcode']
+        if 'ordernote' in request.COOKIES:
+            ordernote=request.COOKIES['ordernote']
+        if 'orderid' in request.COOKIES:
+            orderid=request.COOKIES['orderid']
+        if 'payment_status' in request.COOKIES:
+            payment_status=request.COOKIES['payment_status']
+            
+
+    # here we are placing number of orders as much there is a products
+    # suppose if we have 5 items in cart and we place order....so 5 rows will be created in orders table
+    # there will be lot of redundant data in orders table...but its become more complicated if we normalize it
+            for product in products:
+                customer_order.objects.get_or_create(Customer=Customer,product=product,status='Pending',fname=fname,lname=lname,email=email,mobile=mobile,address=address,city=city,state=state,zipcode=zipcode,ordernote=ordernote,orderid=orderid,payment_status=payment_status)
+
+        # after order placed cookies should be deleted
+
+        ob1 = customer_order.objects.filter(Customer_id=Customer.id).update(payment_status = True)
+
+        response = render(request,'car/ordersuccess.html')
+        response.delete_cookie('product_ids')
+        response.delete_cookie('fname')
+        response.delete_cookie('lname')
+        response.delete_cookie('email')
+        response.delete_cookie('mobile')
+        response.delete_cookie('address')
+        response.delete_cookie('city')
+        response.delete_cookie('state')
+        response.delete_cookie('zipcode')
+        response.delete_cookie('orderid')
+        response.delete_cookie('ordernote')
+        response.delete_cookie('orderid')
+        return response
+        # Here we get products list that will be ordered by one customer at a time
+    
+
+#     # here we are placing number of orders as much there is a products
+#     # suppose if we have 5 items in cart and we place order....so 5 rows will be created in orders table
+#     # there will be lot of redundant data in orders table...but its become more complicated if we normalize it
+#     for product in products:
+#         customer_order.objects.get_or_create(Customer=Customer,Parts_Sub_Category=Parts_Sub_Category,status='Pending')
+
+#     # after order placed cookies should be deleted
+#     response = render(request,'car/ordersuccess.html')
+#     response.delete_cookie('product_ids')
+#     return response
+
+# def custorder(request):
+#     if 'admin' in request.session:
+#         admin = superuser.objects.get(fname = request.session['admin'])
+#         orderdata = customer_order.objects.all().filter(Q(payment_status=True) | Q(status = 'Pending'))
+#         ordered_products=[]
+#         for order in orderdata:
+#             ordered_product=parts_subcategory.objects.all().filter(id=order.Parts_Sub_Category.id)
+#             ordered_products.append(ordered_product)
+#         return render(request,'car/admin/customer_order.html',{'data':zip(ordered_products,orderdata),'admin':admin})
+#     else:
+#         return render(request,'car/admin/customer_order.html',{'data':zip(ordered_products,orderdata),'admin':admin})
+
+# from django.db.models import Q
+def orderstatus(request):
+    if 'user' in request.session:
+        cust = customer.objects.get(fname = request.session['user'])
+        orderdata = customer_order.objects.all().filter(Customer_id=cust.id).filter(payment_status=True)
+        print(orderdata)
+        ordered_products=[]
+        for order in orderdata:
+            print('#####')
+            ordered_product=parts_subcategory.objects.all().filter(id=order.Parts_Sub_Category.id)
+            print(ordered_product)
+            ordered_products.append(ordered_product)
+        return render(request,'car/order_status.html',{'data':zip(ordered_products,orderdata),'user':cust})
     else:
-        # check what happened; details in resp['paytm']
-         return redirect('invoice')
+        return render(request,'car/order_status.html',{'data':zip(ordered_products,orderdata),'user':cust})

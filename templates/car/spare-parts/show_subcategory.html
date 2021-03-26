@@ -68,6 +68,7 @@
                                                         <th>Price</th>
                                                         <th>Fits Model</th>
                                                         <th>Categoty</th>
+                                                        <th>Update</th>
                                                         <th>Delete</th>
                                                     </tr>
                                                 </thead>
@@ -80,8 +81,10 @@
                                                         <td>{{w.price}}</td>
                                                         <td>{{w.fit_model}}</td>
                                                         <td>{{w.Parts_Category.name}}</td>
-                                                        <td><a style="color:red; text-decoration:none;font-size:25px;"
-                                                            href="#"><i class="fas fa-trash-alt"></i></a></td>
+                                                        <td><a style="color:blue; text-decoration:none;font-size:25px;"
+                                                            href="/update_sub_category/{{w.id}}"><i class="fas fa-pencil-alt" style="color: blue;"></i></a></td>
+                                                            <td><a style="color:red; text-decoration:none;font-size:25px;"
+                                                                href="/delete_subcategory/{{w.id}}"><i class="fas fa-trash-alt"></i></a></td>
                                                     </tr>
                                                     {% endfor %}
 

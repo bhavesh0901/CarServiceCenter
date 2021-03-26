@@ -88,6 +88,7 @@ urlpatterns = [
     path('response',views.response, name='response'),
     path('pay_success',views.pay_success,name='pay_success'),
     path('Payment_invoice/<str:order_id>',views.GeneratePDF.as_view(),name='Payment_invoice'),
+   
     
 
 
@@ -157,6 +158,18 @@ urlpatterns = [
     path('cust_view_cart',views.cust_view_cart,name='cust_view_cart'),
     path('cust_remove_from_cart_view/<int:id>',views.cust_remove_from_cart_view,name='cust_remove_from_cart_view'),
     path('checkout',views.checkout,name='checkout'),
+    path('orderstatus',views.orderstatus,name='orderstatus'),
+    path('update_category/<int:id>',views.update_category,name='update_category'),
+    path('del_category/<int:id>',views.del_category,name='del_category'),
+    path('update_sub_category/<int:id>',views.update_sub_category,name='update_sub_category'),
+    path('delete_subcategory/<int:id>',views.delete_subcategory,name='delete_subcategory'),
+
+
+    #####OrderPayment####
+    path('ordersuccess',views.ordersuccess,name='ordersuccess'),
+    path('placeorder/<int:id>',views.placeorder,name='placeorder'),
+    path('res',views.res, name='res'),
+    # path('custorder',views.custorder,name='custorder')
 ]
 
 if settings.DEBUG:

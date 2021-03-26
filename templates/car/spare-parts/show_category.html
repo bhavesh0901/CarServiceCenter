@@ -64,6 +64,7 @@
                                                     <tr>
                                                         <th>Name</th>
                                                         <th>Image</th>
+                                                        <th>Update</th>
                                                         <th>Delete</th>
                                                     </tr>
                                                 </thead>
@@ -72,8 +73,10 @@
                                                     <tr>
                                                         <td> {{w.name}} </td>
                                                         <td ><img height="100px" width="100px" src = '{{ w.image.url }}' alt="avatar"> </td>    
+                                                        <td><a style="color:blue; text-decoration:none;font-size:25px;"
+                                                            href="/update_category/{{w.id}}"><i class="fas fa-pencil-alt" style="color: blue;"></i></a></td>
                                                         <td><a style="color:red; text-decoration:none;font-size:25px;"
-                                                                href="#"><i class="fas fa-trash-alt"></i></a></td>
+                                                                href="/del_category/{{w.id}}"><i class="fas fa-trash-alt"></i></a></td>
                                                     </tr>
                                                     {% endfor %}
 
