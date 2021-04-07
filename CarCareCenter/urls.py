@@ -169,7 +169,7 @@ urlpatterns = [
     path('ordersuccess',views.ordersuccess,name='ordersuccess'),
     path('placeorder/<int:id>',views.placeorder,name='placeorder'),
     path('res',views.res, name='res'),
-    # path('custorder',views.custorder,name='custorder')
+    path('custorder',views.custorder,name='custorder')
 ]
 
 if settings.DEBUG:
